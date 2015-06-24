@@ -1,6 +1,6 @@
 This [Ansible](http://ansible.com/) role allows you to install and manage
 the [Check_MK](https://mathias-kettner.com/check_mk.html) agent. It is the
-client component of the nagios-based Check_MK monitoring suite.
+client component of the Nagios-like Check_MK monitoring suite.
 
 Because the `check-mk-agent` package is missing in the Debian Jessie
 release, this role depends on the [debops.backporter](http://github.com/debops/ansible-backporter)
@@ -34,7 +34,7 @@ into your playbook.
 
 ### Authors and license
 
-`dovecot` role was written by:
+`checkmk_agent` role was written by:
 - Reto Gantenbein | [e-mail](mailto:reto.gantenbein@linuxmonk.ch) | [GitHub](https://github.com/ganto)
 
 License: [GPLv3](https://tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29)
