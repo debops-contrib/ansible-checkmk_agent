@@ -1,0 +1,63 @@
+---
+# Default variables
+# =================
+
+# .. contents:: Sections
+#    :local:
+#
+# -------------------------------
+#   Basic configuration options
+# -------------------------------
+
+# .. envvar:: checkmk_agent
+#
+# Check_MK agent query protocol. Set to ``False`` to disable agent setup.
+# Valid options are ``ssh`` and ``xinetd``.
+checkmk_agent: [ 'xinetd' ]
+
+# .. envvar:: checkmk_agent_allow
+#
+# Lists of IP addresses or network CIDR ranges allowed to connect to the
+# Check_MK agent through the firewall. If lists are empty, anyone can connect.
+checkmk_agent_allow: []
+
+
+# ------------------------
+#   Agent xinetd options
+# ------------------------
+
+# .. envvar:: checkmk_agent_exec
+#
+# Check_MK agent executable path. If you query the agent from multiple
+# servers, you may want to set this to ``/usr/bin/check_mk_caching_agent``.
+checkmk_agent_exec: '/usr/bin/check_mk_agent'
+
+# .. envvar:: checkmk_agent_port
+#
+# Listen port for Check_MK agent
+checkmk_agent_port: '6556'
+
+
+# --------------------------
+#   Agent SSH user options
+# --------------------------
+
+# .. envvar:: checkmk_agent_ssh_user
+#
+# SSH user to query Check_MK agent.
+checkmk_agent_ssh_user: 'nagios'
+
+# .. envvar:: checkmk_agent_ssh_group
+#
+# Primary group of SSH user querying Check_MK agent.
+checkmk_agent_ssh_group: 'nagios'
+
+# .. envvar:: checkmk_agent_user_home
+#
+# Home directory of SSH user querying Check_MK agent.
+checkmk_agent_user_home: '/var/lib/nagios'
+
+# .. envvar:: checkmk_agent_user_key
+#
+# SSH Public key for logging in with SSH user.
+checkmk_agent_user_key: ''

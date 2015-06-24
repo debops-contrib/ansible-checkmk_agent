@@ -1,0 +1,54 @@
+---
+
+dependencies:
+  - role: debops.apt_preferences
+    tags: apt_preferences
+    apt_preferences_dependent_list:
+      - package: 'check-mk'
+        backports: [ 'jessie' ]
+        reason: 'Package not available in upstream Debian Jessie'
+        by_role: 'ansible-checkmk_agent'
+
+  # Make sure that check-mk-agent is available in Debian Jessie
+  - role: debops.backporter
+    backporter_package: 'check-mk'
+    backporter_release: '{{ ansible_distribution_release }}'
+    backporter_version: '1.2.6'
+    backporter_source_version: '1.2.6p4-1'
+    backporter_source_orig: '.orig.tar.gz'
+    backporter_fake_version: '1.0'
+    backporter_command_dget: 'dget --allow-unauthenticated'
+    backporter_skip_builddep: True
+    backporter_prerequisites: [ 'dpatch' ]
+    backporter_install: False
+
+  - role: debops.etc_services
+    etc_services_dependent_list:
+      - name: 'check-mk-agent'
+        port: '{{ checkmk_agent_port }}'
+        comment: 'Check_MK agent (via xinetd)'
+    when: (checkmk_agent is defined and checkmk_agent) and
+          ('xinetd' in checkmk_agent)
+
+  - role: debops.ferm
+    ferm_input_list:
+      - type: 'dport_accept'
+        dport: [ 'check-mk-agent' ]
+        saddr: '{{ checkmk_agent_allow }}'
+        accept_any: True
+        filename: 'checkmk_agent_dependency_accept'
+        weight: '20'
+    when: (checkmk_agent is defined and checkmk_agent) and
+          ('xinetd' in checkmk_agent)
+
+
+galaxy_info:
+  author: 'Reto Gantenbein'
+  description: 'Install Check_MK Agent'
+  license: 'GNU General Public License v3'
+  min_ansible_version: '1.7.0'
+  platforms:
+  - name: Debian
+    versions:
+    - wheezy
+    - jessie

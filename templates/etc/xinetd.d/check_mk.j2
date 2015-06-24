@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+
+service check_mk
+{
+    type           = UNLISTED
+    port           = {{ checkmk_agent_port }}
+    socket_type    = stream
+    protocol       = tcp
+    wait           = no
+    user           = root
+    server         = {{ checkmk_agent_exec }}
+
+{#  # If you use fully redundant monitoring and poll the client
+    # from more then one monitoring servers in parallel you might
+    # want to use the agent cache wrapper:
+    #server         = /usr/bin/check_mk_caching_agent
+#}
+    # configure the IP address(es) of your Nagios server here:
+{% if checkmk_agent_allow is defined and checkmk_agent_allow | length > 0 %}
+    only_from      = {{ checkmk_agent_allow | join(' ') }}
+{% else %}
+    #only_from      = 127.0.0.1 10.0.20.1 10.0.20.2
+{% endif %}
+
+    # Don't be too verbose. Don't log every check. This might be
+    # commented out for debugging. If this option is commented out
+    # the default options will be used for this service.
+    log_on_success =
+
+    disable        = no
+}

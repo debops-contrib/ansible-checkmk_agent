@@ -1,0 +1,16 @@
+---
+
+- name: Install Check_MK Agent
+  apt:
+    name: 'check-mk-agent'
+    state: 'present'
+    install_recommends: False
+  when: checkmk_agent is defined and checkmk_agent
+
+- include: ssh_user.yml
+  when: (checkmk_agent is defined and checkmk_agent) and
+        ('ssh' in checkmk_agent)
+
+- include: xinetd.yml
+  when: (checkmk_agent is defined and checkmk_agent) and
+        ('xinetd' in checkmk_agent)

@@ -1,0 +1,21 @@
+---
+
+- name: Install xinetd package
+  apt:
+    name: 'xinetd'
+    state: 'present'
+    install_recommends: False
+
+- name: Divert original /etc/xinetd.d/check_mk
+  command: dpkg-divert --quiet --local --divert /etc/xinetd.d/check_mk.dpkg-divert --rename /etc/xinetd.d/check_mk
+  args:
+    creates: '/etc/xinetd.d/check_mk.dpkg-divert'
+
+- name: Configure Check_MK service
+  template:
+    src: '{{ lookup("template_src", "etc/xinetd.d/check_mk.j2") }}'
+    dest: '/etc/xinetd.d/check_mk'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: [ Restart xinetd ]
