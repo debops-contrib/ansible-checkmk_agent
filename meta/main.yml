@@ -6,21 +6,8 @@ dependencies:
     apt_preferences_dependent_list:
       - package: 'check-mk'
         backports: [ 'jessie' ]
-        reason: 'Package not available in upstream Debian Jessie'
+        reason: 'Package not available in stable Debian Jessie'
         by_role: 'ansible-checkmk_agent'
-
-  # Make sure that check-mk-agent is available in Debian Jessie
-  - role: debops.backporter
-    backporter_package: 'check-mk'
-    backporter_release: '{{ ansible_distribution_release }}'
-    backporter_version: '1.2.6'
-    backporter_source_version: '1.2.6p4-1'
-    backporter_source_orig: '.orig.tar.gz'
-    backporter_fake_version: '1.0'
-    backporter_command_dget: 'dget --allow-unauthenticated'
-    backporter_skip_builddep: True
-    backporter_prerequisites: [ 'dpatch' ]
-    backporter_install: False
 
   - role: debops.etc_services
     etc_services_dependent_list:
