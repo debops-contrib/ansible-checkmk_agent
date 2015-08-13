@@ -12,6 +12,5 @@ Role dependencies
 ~~~~~~~~~~~~~~~~~
 
 - ``debops.apt_preferences``
-- ``debops.backporter``
 - ``debops.etc_services``
 - ``debops.ferm``
