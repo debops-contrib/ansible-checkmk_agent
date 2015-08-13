@@ -2,7 +2,7 @@
 
 # DebOps hostgroup to plugin mapping
 checkmk_agent_group_plugin_map:
-  debops_mariadb_server: 'my_mysql'
-  debops_mysql: 'my_mysql'
+  debops_mariadb_server: 'mk_mysql'
+  debops_mysql: 'mk_mysql'
   debops_nginx: 'nginx_status'
-  debops_postgresql: 'my_postgres'
+  debops_postgresql: 'mk_postgres'
