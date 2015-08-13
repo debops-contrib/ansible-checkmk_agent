@@ -34,7 +34,7 @@ checkmk_agent_exec: '/usr/bin/check_mk_agent'
 
 # .. envvar:: checkmk_agent_port
 #
-# Listen port for Check_MK agent
+# Listen port for Check_MK agent.
 checkmk_agent_port: '6556'
 
 
@@ -61,3 +61,55 @@ checkmk_agent_user_home: '/var/lib/nagios'
 #
 # SSH Public key for logging in with SSH user.
 checkmk_agent_user_key: ''
+
+
+# -------------------------
+#   Agent plugins options
+# -------------------------
+
+# .. envvar:: checkmk_agent_plugins
+#
+# List of upstream Check_MK agent plugins to always enable.
+checkmk_agent_plugins: []
+
+# .. envvar:: checkmk_agent_group_plugins
+#
+# "Host Group" list of upstream Check_MK agent plugins to always enable.
+checkmk_agent_group_plugins: []
+
+# .. envvar:: checkmk_agent_host_plugins
+#
+# "Host" list of upstream Check_MK agent plugins to always enable.
+checkmk_agent_host_plugins: []
+
+# .. envvar:: checkmk_agent_plugins_autodetect
+#
+# Try to install Check_MK agent plugins for applications autodetected
+# via DebOps host group memberships.
+checkmk_agent_plugin_autodetect: True
+
+# .. envvar:: checkmk_agent_plugins_path
+#
+# Destination path to install the Check_MK agent plugins.
+checkmk_agent_plugin_path: '/usr/lib/check_mk_agent/plugins'
+
+
+# --------------------------------
+#   Agent plugins source options
+# --------------------------------
+
+# .. envvar:: checkmk_agent_git_repo
+#
+# Check_MK agent source repository.
+checkmk_agent_git_repo: 'http://git.mathias-kettner.de/check_mk.git'
+
+# .. envvar:: checkmk_agent_git_dest
+#
+# Check_MK agent source directory on the host.
+checkmk_agent_git_dest: '{{ "/usr/local/src/check-mk/" + checkmk_agent_git_repo.split("://")[1] }}'
+
+# .. envvar:: checkmk_agent_git_version
+#
+# Check_MK agent git branch to deploy. Set ``auto`` to set version to dpkg
+# package version.
+checkmk_agent_git_version: 'auto'

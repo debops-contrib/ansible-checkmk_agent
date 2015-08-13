@@ -1,5 +1,29 @@
 ---
 
+- name: DebOps pre_tasks hook
+  include: "{{ lookup('task_src', 'checkmk_agent/pre_main.yml') }}"
+
+- name: Make sure Ansible local facts directory exists
+  file:
+    dest: '/etc/ansible/facts.d'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
+- name: Configure Check_MK agent local facts
+  template:
+    src: 'etc/ansible/facts.d/checkmk_agent.fact.j2'
+    dest: '/etc/ansible/facts.d/checkmk_agent.fact'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: checkmk_agent_register_local_facts
+
+- name: Re-read local facts if they have been modified
+  action: setup
+  when: checkmk_agent_register_local_facts.changed
+
 - name: Install Check_MK Agent
   apt:
     name: 'check-mk-agent'
@@ -14,3 +38,10 @@
 - include: xinetd.yml
   when: (checkmk_agent is defined and checkmk_agent) and
         ('xinetd' in checkmk_agent)
+
+- include: setup_plugins.yml
+  when: ansible_local.checkmk_agent.checkmk_agent_plugin_list is defined and
+        ansible_local.checkmk_agent.checkmk_agent_plugin_list
+
+- name: DebOps post_tasks hook
+  include: "{{ lookup('task_src', 'checkmk_agent/post_main.yml') }}"

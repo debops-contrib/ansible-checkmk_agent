@@ -1,0 +1,23 @@
+---
+
+- name: Get Check_MK agent version
+  shell: dpkg-query -W -f='${Version}\n' check-mk-agent 2>/dev/null | sed -e 's/^.*://' || true
+  register: checkmk_agent_register_package_dpkg_version
+  changed_when: False
+  when: checkmk_agent_git_version == 'auto'
+
+- name: Clone Check_MK agent source
+  git:
+    repo: '{{ checkmk_agent_git_repo }}'
+    dest: '{{ checkmk_agent_git_dest }}'
+    version: '{{ "v" + checkmk_agent_register_package_dpkg_version.stdout.split("-")[0] if checkmk_agent_git_version == "auto" else checkmk_agent_git_version }}'
+    update: True
+
+- name: Install Check_MK plugins
+  synchronize:
+    src: '{{ checkmk_agent_git_dest }}/agents/plugins/{{ item }}'
+    dest: '{{ checkmk_agent_plugin_path }}'
+    checksum: yes
+    mode: push
+  with_items: ansible_local.checkmk_agent.checkmk_agent_plugin_list
+  delegate_to: '{{ inventory_hostname }}'
