@@ -15,11 +15,23 @@
 # Valid options are ``ssh`` and ``xinetd``.
 checkmk_agent: [ 'xinetd' ]
 
+
 # .. envvar:: checkmk_agent_allow
 #
-# Lists of IP addresses or network CIDR ranges allowed to connect to the
-# Check_MK agent through the firewall. If lists are empty, anyone can connect.
+# List of IP addresses or network CIDR ranges allowed to connect to the
+# Check_MK agent through the firewall. If list are empty, anyone can connect.
 checkmk_agent_allow: []
+
+
+# .. envvar:: checkmk_agent_ferm_dependent_rules
+#
+# Configuration of the Linux firewall using ``debops.ferm``.
+checkmk_agent_ferm_dependent_rules:
+  - type: 'accept'
+    dport: [ 'check-mk-agent' ]
+    saddr: '{{ checkmk_agent_allow }}'
+    accept_any: True
+    weight: '20'
 
 
 # ------------------------
@@ -31,6 +43,7 @@ checkmk_agent_allow: []
 # Check_MK agent executable path. If you query the agent from multiple
 # servers, you may want to set this to ``/usr/bin/check_mk_caching_agent``.
 checkmk_agent_exec: '/usr/bin/check_mk_agent'
+
 
 # .. envvar:: checkmk_agent_port
 #
@@ -47,15 +60,18 @@ checkmk_agent_port: '6556'
 # SSH user to query Check_MK agent.
 checkmk_agent_ssh_user: 'nagios'
 
+
 # .. envvar:: checkmk_agent_ssh_group
 #
 # Primary group of SSH user querying Check_MK agent.
 checkmk_agent_ssh_group: 'nagios'
 
+
 # .. envvar:: checkmk_agent_user_home
 #
 # Home directory of SSH user querying Check_MK agent.
 checkmk_agent_user_home: '/var/lib/nagios'
+
 
 # .. envvar:: checkmk_agent_user_key
 #
@@ -72,21 +88,25 @@ checkmk_agent_user_key: ''
 # List of upstream Check_MK agent plugins to always enable.
 checkmk_agent_plugins: []
 
+
 # .. envvar:: checkmk_agent_group_plugins
 #
 # "Host Group" list of upstream Check_MK agent plugins to always enable.
 checkmk_agent_group_plugins: []
+
 
 # .. envvar:: checkmk_agent_host_plugins
 #
 # "Host" list of upstream Check_MK agent plugins to always enable.
 checkmk_agent_host_plugins: []
 
+
 # .. envvar:: checkmk_agent_plugins_autodetect
 #
-# Try to install Check_MK agent plugins for applications autodetected
+# Try to install Check_MK agent plugins for applications auto detected
 # via DebOps host group memberships.
 checkmk_agent_plugin_autodetect: True
+
 
 # .. envvar:: checkmk_agent_plugins_path
 #
@@ -103,10 +123,12 @@ checkmk_agent_plugin_path: '/usr/lib/check_mk_agent/plugins'
 # Check_MK agent source repository.
 checkmk_agent_git_repo: 'http://git.mathias-kettner.de/check_mk.git'
 
+
 # .. envvar:: checkmk_agent_git_dest
 #
 # Check_MK agent source directory on the host.
 checkmk_agent_git_dest: '{{ "/usr/local/src/check-mk/" + checkmk_agent_git_repo.split("://")[1] }}'
+
 
 # .. envvar:: checkmk_agent_git_version
 #
