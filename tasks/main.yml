@@ -32,17 +32,15 @@
   when: checkmk_agent is defined and checkmk_agent
 
 - include: ssh_user.yml
-  when: (checkmk_agent is defined and checkmk_agent) and
-        ('ssh' in checkmk_agent)
+  when: (checkmk_agent|d() and 'ssh' in checkmk_agent)
 
 - include: xinetd.yml
-  when: (checkmk_agent is defined and checkmk_agent) and
-        ('xinetd' in checkmk_agent)
+  when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
 
 - include: setup_plugins.yml
-  when: (checkmk_agent is defined and checkmk_agent) and
-        (ansible_local.checkmk_agent.checkmk_agent_plugin_list is defined and
-         ansible_local.checkmk_agent.checkmk_agent_plugin_list)
+  when: (checkmk_agent|d() and
+         ansible_local|d() and ansible_local.checkmk_agent|d() and
+         ansible_local.checkmk_agent.checkmk_agent_plugin_list|d())
 
 - name: DebOps post_tasks hook
   include: "{{ lookup('task_src', 'checkmk_agent/post_main.yml') }}"

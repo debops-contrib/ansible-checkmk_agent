@@ -2,36 +2,33 @@
 
 dependencies:
   - role: debops.apt_preferences
-    tags: apt_preferences
+    tags: [ 'depend::apt_preferences', 'depend::apt_preferences:checkmk_agent',
+            'depend-of::checkmk_agent', 'type::dependency' ]
     apt_preferences_dependent_list:
       - package: 'check-mk'
         backports: [ 'jessie' ]
         reason: 'Package not available in stable Debian Jessie'
-        by_role: 'ansible-checkmk_agent'
+        by_role: 'debops.contrib-checkmk_agent'
 
   - role: debops.etc_services
+    tags: [ 'depend::etc_services', 'depend::etc_services:checkmk_agent',
+            'depend-of::checkmk_agent', 'type::dependency' ]
     etc_services_dependent_list:
       - name: 'check-mk-agent'
         port: '{{ checkmk_agent_port }}'
         comment: 'Check_MK agent (via xinetd)'
-    when: (checkmk_agent is defined and checkmk_agent) and
-          ('xinetd' in checkmk_agent)
+    when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
 
   - role: debops.ferm
-    ferm_input_list:
-      - type: 'dport_accept'
-        dport: [ 'check-mk-agent' ]
-        saddr: '{{ checkmk_agent_allow }}'
-        accept_any: True
-        filename: 'checkmk_agent_dependency_accept'
-        weight: '20'
-    when: (checkmk_agent is defined and checkmk_agent) and
-          ('xinetd' in checkmk_agent)
+    tags: [ 'depend::ferm', 'depend::ferm:checkmk_agent',
+            'depend-of::checkmk_agent', 'type::dependency' ]
+    ferm_dependent_rules: '{{ checkmk_agent_ferm_dependent_rules }}'
+    when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
 
 
 galaxy_info:
   author: 'Reto Gantenbein'
-  description: 'Install Check_MK Agent'
+  description: 'Setup Check_MK monitoring agent'
   license: 'GNU General Public License v3'
   min_ansible_version: '1.7.0'
   platforms:

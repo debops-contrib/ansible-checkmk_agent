@@ -18,4 +18,4 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  notify: [ Restart xinetd ]
+  notify: [ 'Restart xinetd' ]
