@@ -2,7 +2,7 @@ Introduction
 ============
 
 This `Ansible`_ role allows you to install and manage the `Check_MK`_
-agent. It is the client component of the nagios-based Check_MK monitoring
+agent. It is the client component of the Nagios-based Check_MK monitoring
 suite.
 
 .. _Ansible: http://ansible.com/
