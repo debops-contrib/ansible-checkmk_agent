@@ -17,7 +17,7 @@
   synchronize:
     src: '{{ checkmk_agent_git_dest }}/agents/plugins/{{ item }}'
     dest: '{{ checkmk_agent_plugin_path }}'
-    checksum: yes
-    mode: push
+    checksum: True
+    mode: 'push'
   with_items: ansible_local.checkmk_agent.checkmk_agent_plugin_list
   delegate_to: '{{ inventory_hostname }}'
