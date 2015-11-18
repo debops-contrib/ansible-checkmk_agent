@@ -1,4 +1,4 @@
-{% set checkmk_agent_tpl_plugin_list = (checkmk_agent_plugins | union(checkmk_agent_group_plugins)) | union(checkmk_agent_host_plugins) | unique %}
+{% set checkmk_agent_tpl_plugin_list = checkmk_agent_plugin_list %}
 {% if checkmk_agent_plugin_autodetect is defined and checkmk_agent_plugin_autodetect %}
 {% for hostgroup in hostvars[inventory_hostname]['group_names'] | intersect(checkmk_agent_group_plugin_map.keys()) %}
 {% set _ = checkmk_agent_tpl_plugin_list.append(checkmk_agent_group_plugin_map[hostgroup]) %}

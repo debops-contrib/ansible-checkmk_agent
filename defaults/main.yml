@@ -114,6 +114,63 @@ checkmk_agent_plugin_autodetect: True
 checkmk_agent_plugin_path: '/usr/lib/check_mk_agent/plugins'
 
 
+# .. envvar:: checkmk_agent_group_plugin_map
+#
+# DebOps hostgroup to plugin mapping.
+checkmk_agent_group_plugin_map:
+  debops_mariadb_server: 'mk_mysql'
+  debops_mysql: 'mk_mysql'
+  debops_nginx: 'nginx_status'
+  debops_postgresql: 'mk_postgres'
+
+
+# .. envvar:: checkmk_agent_plugin_list
+#
+# Combined list of all plugins which are going to be installed.
+# Plugins which can be detected by looking at the host group will be added
+# accruing to :ref:`checkmk_agent_group_plugin_map` when
+# :ref:`checkmk_agent_plugin_autodetect` is ``True``.
+checkmk_agent_plugin_list: '{{ (
+  (checkmk_agent_plugins|d([])) +
+  (checkmk_agent_group_plugins|d([])) +
+  (checkmk_agent_host_plugins|d([])) ) | unique }}'
+
+
+# -------------------------
+#   MySQL/MariaDB monitoring plugins options
+# -------------------------
+
+# .. envvar:: checkmk_agent_plugin_mysql
+#
+# When a host should get the ``mk_mysql`` monitoring plugin then additionally
+# automatically configure it. This will setup a database user which has read
+# access to the database server.
+# Set to ``manual`` to configure it manually.
+# See https://mathias-kettner.de/checkmk_mysql.html
+checkmk_agent_plugin_mysql: 'automatic'
+
+
+# .. envvar:: checkmk_agent_plugin_mysql_user
+#
+# Database user account name to use for monitoring.
+checkmk_agent_plugin_mysql_user: 'monitor'
+
+
+# .. envvar:: checkmk_agent_plugin_mysql_password
+#
+# Database user password to use for monitoring.
+checkmk_agent_plugin_mysql_password: "{{ lookup('password', secret + '/mariadb/' +
+                                         ansible_local.mariadb.delegate_to +
+                                         '/credentials/' + checkmk_agent_plugin_mysql_user +
+                                         '/password length=48') }}"
+
+
+# .. envvar:: checkmk_agent_plugin_mysql_priv
+#
+# Privilages of the database user used for monitoring.
+checkmk_agent_plugin_mysql_priv: '*.*:SELECT,SHOW DATABASES'
+
+
 # --------------------------------
 #   Agent plugins source options
 # --------------------------------

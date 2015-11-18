@@ -38,6 +38,7 @@
   when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
 
 - include: setup_plugins.yml
+  tags: [ 'role::checkmk_agent:plugins' ]
   when: (checkmk_agent|d() and
          ansible_local|d() and ansible_local.checkmk_agent|d() and
          ansible_local.checkmk_agent.checkmk_agent_plugin_list|d())
