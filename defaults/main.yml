@@ -119,9 +119,13 @@ checkmk_agent_plugin_path: '/usr/lib/check_mk_agent/plugins'
 # DebOps hostgroup to plugin mapping.
 checkmk_agent_group_plugin_map:
   debops_mariadb_server: 'mk_mysql'
+  debops_service_mariadb_server: 'mk_mysql'
   debops_mysql: 'mk_mysql'
+  debops_service_mysql: 'mk_mysql'
   debops_nginx: 'nginx_status'
+  debops_service_nginx: 'nginx_status'
   debops_postgresql: 'mk_postgres'
+  debops_service_postgresql: 'mk_postgres'
 
 
 # .. envvar:: checkmk_agent_plugin_list
