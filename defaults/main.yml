@@ -175,6 +175,27 @@ checkmk_agent_plugin_mysql_password: "{{ lookup('password', secret + '/mariadb/'
 checkmk_agent_plugin_mysql_priv: '*.*:SELECT,SHOW DATABASES'
 
 
+# -------------------------
+#   nginx monitoring plugins options
+# -------------------------
+
+# .. envvar:: checkmk_agent_plugin_nginx_servers
+#
+# This option allows you to configure the servers which nginx_status_
+# plugin should monitoring. This might be required when the auto detection of
+# the plugin fails for example because the default server does not allow
+# ``/nginx_status``. This can happen because the plugin tires to connect with
+# the IP address set as Host.
+# This is currently enabled as workaround. See https://github.com/debops-contrib/ansible-checkmk_agent/pull/3
+# .. _nginx_status: https://mathias-kettner.de/checkmk_check_nginx_status.html
+# checkmk_agent_plugin_nginx_servers: 'automatic'
+
+checkmk_agent_plugin_nginx_servers:
+  - proto: 'http'
+    ipaddress: 'localhost'
+    port: 80
+
+
 # --------------------------------
 #   Agent plugins source options
 # --------------------------------

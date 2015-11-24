@@ -21,3 +21,18 @@
     mode: 'push'
   with_items: ansible_local.checkmk_agent.checkmk_agent_plugin_list
   delegate_to: '{{ inventory_hostname }}'
+
+- name: Configure nginx_status plugin
+  template:
+    src: 'etc/check_mk/nginx_status.cfg.j2'
+    dest: '/etc/check_mk/nginx_status.cfg'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  when: (checkmk_agent_plugin_nginx_servers is defined and checkmk_agent_plugin_nginx_servers is not string)
+
+- name: Ensure that nginx_status.cfg is absent for automatic detection
+  file:
+    path: '/etc/check_mk/nginx_status.cfg'
+    state: 'absent'
+  when: (checkmk_agent_plugin_nginx_servers|d("automatic") == "automatic")
