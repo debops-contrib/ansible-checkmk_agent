@@ -1,3 +1,3 @@
 # {{ ansible_managed }}
 
-servers = [ {% for server in checkmk_agent_plugin_nginx_servers %}('{{ server.proto }}', '{{ server.ipaddress }}', {{ server.port }}){% endfor %} ]
+servers = [ {% for server in checkmk_agent_plugin_nginx_servers %}('{{ server.proto }}', '{{ server.ipaddress }}', {{ server.port }}){{ ', ' if (not loop.last) else '' }}{% endfor %} ]
