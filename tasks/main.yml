@@ -31,6 +31,14 @@
     install_recommends: False
   when: checkmk_agent is defined and checkmk_agent
 
+- name: Ensure the /etc/check_mk directory does exist
+  file:
+    dest: '/etc/check_mk'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
 - include: ssh_user.yml
   when: (checkmk_agent|d() and 'ssh' in checkmk_agent)
 
