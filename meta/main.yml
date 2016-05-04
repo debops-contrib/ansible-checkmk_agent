@@ -44,6 +44,7 @@ dependencies:
 
 galaxy_info:
 
+  company: 'DebOps'
   author: 'Reto Gantenbein, Robin Schneider'
   description: 'Setup Check_MK monitoring agent'
   license: 'GNU General Public License v3'
