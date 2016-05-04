@@ -44,6 +44,8 @@ checkmk_agent_ferm_dependent_rules:
 
 # .. )))
 
+# .. Agent xinetd options (((
+#
 # ------------------------
 #   Agent xinetd options
 # ------------------------
@@ -60,7 +62,10 @@ checkmk_agent_exec: '/usr/bin/check_mk_agent'
 # Listen port for Check_MK agent.
 checkmk_agent_port: '6556'
 
+# .. )))
 
+# .. Agent SSH user options (((
+#
 # --------------------------
 #   Agent SSH user options
 # --------------------------
@@ -88,7 +93,10 @@ checkmk_agent_user_home: '/var/lib/nagios'
 # SSH Public key for logging in with SSH user.
 checkmk_agent_user_key: ''
 
+# .. )))
 
+# .. Agent plugins options (((
+#
 # -------------------------
 #   Agent plugins options
 # -------------------------
@@ -149,7 +157,10 @@ checkmk_agent_plugin_list: '{{ (
   (checkmk_agent_group_plugins|d([])) +
   (checkmk_agent_host_plugins|d([])) ) | unique }}'
 
+# .. )))
 
+# .. MySQL/MariaDB monitoring plugins options (((
+#
 # -------------------------
 #   MySQL/MariaDB monitoring plugins options
 # -------------------------
@@ -184,10 +195,13 @@ checkmk_agent_plugin_mysql_password: "{{ lookup('password', secret + '/mariadb/'
 # Privilages of the database user used for monitoring.
 checkmk_agent_plugin_mysql_priv: '*.*:SELECT,SHOW DATABASES'
 
+# .. )))
 
-# -------------------------
+# .. nginx monitoring plugins options (((
+#
+# ------------------------------------
 #   nginx monitoring plugins options
-# -------------------------
+# ------------------------------------
 
 # .. envvar:: checkmk_agent_plugin_nginx_servers
 #
@@ -218,7 +232,10 @@ checkmk_agent_plugin_nginx_servers:
     ipaddress: 'localhost'
     port: 80
 
+# .. )))
 
+# .. Agent plugins source options (((
+#
 # --------------------------------
 #   Agent plugins source options
 # --------------------------------
@@ -240,3 +257,5 @@ checkmk_agent_git_dest: '{{ "/usr/local/src/check-mk/" + checkmk_agent_git_repo.
 # Check_MK agent git branch to deploy. Set ``auto`` to set version to dpkg
 # package version.
 checkmk_agent_git_version: 'auto'
+
+# .. )))
