@@ -57,6 +57,15 @@ checkmk_agent_ferm_dependent_rules:
 checkmk_agent_exec: '/usr/bin/check_mk_agent'
 
 
+# .. envvar:: checkmk_agent_exec_user
+#
+# System user under which the Check_MK agent is executed.
+# The Check_MK agent default is ``root`` which not best practice.
+# This role uses an unprivileged user by default which might need some adoption
+# for plugins.
+checkmk_agent_exec_user: 'nagios'
+
+
 # .. envvar:: checkmk_agent_port
 #
 # Listen port for Check_MK agent.
@@ -66,20 +75,20 @@ checkmk_agent_port: '6556'
 
 # .. Agent SSH user options (((
 #
-# --------------------------
-#   Agent SSH user options
-# --------------------------
+# -------------------------------------
+#   Agent SSH and system user options
+# -------------------------------------
 
-# .. envvar:: checkmk_agent_ssh_user
+# .. envvar:: checkmk_agent_system_user
 #
 # SSH user to query Check_MK agent.
-checkmk_agent_ssh_user: 'nagios'
+checkmk_agent_system_user: 'nagios'
 
 
-# .. envvar:: checkmk_agent_ssh_group
+# .. envvar:: checkmk_agent_system_group
 #
 # Primary group of SSH user querying Check_MK agent.
-checkmk_agent_ssh_group: 'nagios'
+checkmk_agent_system_group: 'nagios'
 
 
 # .. envvar:: checkmk_agent_user_home
@@ -150,12 +159,18 @@ checkmk_agent_group_plugin_map:
 #
 # Combined list of all plugins which are going to be installed.
 # Plugins which can be detected by looking at the host group will be added
-# accruing to :ref:`checkmk_agent_group_plugin_map` when
+# according to :ref:`checkmk_agent_group_plugin_map` when
 # :ref:`checkmk_agent_plugin_autodetect` is ``True``.
 checkmk_agent_plugin_list: '{{ (
   (checkmk_agent_plugins|d([])) +
   (checkmk_agent_group_plugins|d([])) +
-  (checkmk_agent_host_plugins|d([])) ) | unique }}'
+  (checkmk_agent_host_plugins|d([])) +
+  (
+    (hostvars[inventory_hostname]["group_names"] | intersect(checkmk_agent_group_plugin_map.keys()) | map("extract", checkmk_agent_group_plugin_map) | list)
+    if (checkmk_agent_plugin_autodetect | bool) else []
+  ) +
+  []
+  ) | unique }}'
 
 # .. )))
 
@@ -170,7 +185,7 @@ checkmk_agent_plugin_list: '{{ (
 # When a host should get the ``mk_mysql`` monitoring plugin then additionally
 # automatically configure it. This will setup a database user which has read
 # access to the database server.
-# Set to ``manual`` to configure it manually.
+# Set to ``manual`` when you prefer configure manually.
 # See https://mathias-kettner.de/checkmk_mysql.html
 checkmk_agent_plugin_mysql: 'automatic'
 
@@ -184,10 +199,10 @@ checkmk_agent_plugin_mysql_user: 'monitor'
 # .. envvar:: checkmk_agent_plugin_mysql_password
 #
 # Database user password to use for monitoring.
-checkmk_agent_plugin_mysql_password: "{{ lookup('password', secret + '/mariadb/' +
+checkmk_agent_plugin_mysql_password: '{{ lookup("password", secret + "/mariadb/" +
                                          ansible_local.mariadb.delegate_to +
-                                         '/credentials/' + checkmk_agent_plugin_mysql_user +
-                                         '/password length=48') }}"
+                                         "/credentials/" + checkmk_agent_plugin_mysql_user +
+                                         "/password length=48") }}'
 
 
 # .. envvar:: checkmk_agent_plugin_mysql_priv
@@ -205,7 +220,7 @@ checkmk_agent_plugin_mysql_priv: '*.*:SELECT,SHOW DATABASES'
 
 # .. envvar:: checkmk_agent_plugin_nginx_servers
 #
-# This option allows you to configure the servers which nginx_status_
+# This option allows you to configure the servers which the nginx_status_
 # plugin should monitoring. This might be required when the auto detection of
 # the plugin fails for example because the default server does not allow
 # ``/nginx_status``. This can happen because the plugin tires to connect with

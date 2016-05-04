@@ -1,0 +1,16 @@
+---
+
+- name: Create Check_MK system user group
+  group:
+    name: '{{ checkmk_agent_system_group }}'
+    system: 'yes'
+
+- name: Create Check_MK system user
+  user:
+    name: '{{ checkmk_agent_system_user }}'
+    group: '{{ checkmk_agent_system_group }}'
+    groups: '{{ "sshusers" if ("ssh" in checkmk_agent|d([])) else "" }}'
+    system: 'yes'
+    shell: '/bin/sh'
+    home: '{{ checkmk_agent_user_home }}'
+    createhome: 'yes'

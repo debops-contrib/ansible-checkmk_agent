@@ -40,13 +40,19 @@
     group: 'root'
     mode: '0755'
 
-- include: ssh_user.yml
-  when: (checkmk_agent|d() and 'ssh' in checkmk_agent)
+- name: Run tasks related to system user configuration
+  include: system_user.yml
 
-- include: xinetd.yml
-  when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
+- name: Run tasks related to ssh user configuration
+  include: ssh_user.yml
+  when: ("ssh" in checkmk_agent|d([]))
 
-- include: setup_plugins.yml
+- name: Run tasks related to xinetd configuration
+  include: xinetd.yml
+  when: ("xinetd" in checkmk_agent|d([]))
+
+- name: Run tasks related to plugin setup
+  include: setup_plugins.yml
   tags: [ 'role::checkmk_agent:plugins' ]
   when: (checkmk_agent|d() and
          ansible_local|d() and ansible_local.checkmk_agent|d() and

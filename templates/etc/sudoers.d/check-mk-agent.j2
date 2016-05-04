@@ -1,4 +1,4 @@
 # {{ ansible_managed }}
 
-Defaults: {{ checkmk_agent_ssh_user }} !requiretty
-{{ checkmk_agent_ssh_user }} ALL=(root) NOPASSWD: {{ checkmk_agent_exec }}
+Defaults: {{ checkmk_agent_system_user }} !requiretty
+{{ checkmk_agent_system_user }} ALL=(root) NOPASSWD: {{ checkmk_agent_exec }}

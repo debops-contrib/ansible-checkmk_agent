@@ -18,13 +18,13 @@ dependencies:
       - name: 'check-mk-agent'
         port: '{{ checkmk_agent_port }}'
         comment: 'Check_MK agent (via xinetd)'
-    when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
+    when: ("xinetd" in checkmk_agent|d([]))
 
   - role: debops.ferm
     tags: [ 'depend::ferm', 'depend::ferm:checkmk_agent',
             'depend-of::checkmk_agent', 'type::dependency' ]
     ferm_dependent_rules: '{{ checkmk_agent_ferm_dependent_rules }}'
-    when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
+    when: ("xinetd" in checkmk_agent|d([]))
 
   - role: debops.mariadb
     mariadb_users:
@@ -36,9 +36,7 @@ dependencies:
         append_privs: False
         owner: 'root'
         creds_path: '/etc/check_mk/mysql.cfg'
-    when: (("mk_mysql" in checkmk_agent_plugin_list and checkmk_agent_plugin_mysql|d("automatic") == "automatic") or
-            ((checkmk_agent_plugin_autodetect|d(True) | bool) and "debops_mariadb_server" in hostvars[inventory_hostname]["group_names"])
-          )
+    when: ("mk_mysql" in checkmk_agent_plugin_list and checkmk_agent_plugin_mysql == "automatic")
     tags: [ 'depend::mariadb', 'depend::mariadb:checkmk_agent',
             'depend-of::checkmk_agent', 'type::dependency' ]
 
@@ -48,7 +46,7 @@ galaxy_info:
   author: 'Reto Gantenbein, Robin Schneider'
   description: 'Setup Check_MK monitoring agent'
   license: 'GNU General Public License v3'
-  min_ansible_version: '1.7.0'
+  min_ansible_version: '2.1.0'
 
   platforms:
 

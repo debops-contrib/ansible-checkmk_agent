@@ -7,7 +7,7 @@ service check_mk
     socket_type    = stream
     protocol       = tcp
     wait           = no
-    user           = root
+    user           = {{ checkmk_agent_exec_user }}
     server         = {{ checkmk_agent_exec }}
 
 {#  # If you use fully redundant monitoring and poll the client
