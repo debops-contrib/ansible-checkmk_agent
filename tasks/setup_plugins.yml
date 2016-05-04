@@ -19,7 +19,7 @@
     dest: '{{ checkmk_agent_plugin_path }}'
     checksum: True
     mode: 'push'
-  with_items: ansible_local.checkmk_agent.checkmk_agent_plugin_list
+  with_items: '{{ ansible_local.checkmk_agent.checkmk_agent_plugin_list }}'
   delegate_to: '{{ inventory_hostname }}'
 
 - name: Configure nginx_status plugin

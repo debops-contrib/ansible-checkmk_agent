@@ -26,10 +26,19 @@
 
 - name: Install Check_MK Agent
   apt:
-    name: 'check-mk-agent'
+    name: '{{ item }}'
     state: 'present'
     install_recommends: False
-  when: checkmk_agent is defined and checkmk_agent
+  when: checkmk_agent|d()
+  with_items: '{{ checkmk__base_packages }}'
+
+- name: Ensure the /etc/check_mk directory does exist
+  file:
+    dest: '/etc/check_mk'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
 
 - include: ssh_user.yml
   when: (checkmk_agent|d() and 'ssh' in checkmk_agent)

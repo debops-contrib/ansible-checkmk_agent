@@ -1,6 +1,7 @@
 ---
 
 dependencies:
+
   - role: debops.apt_preferences
     tags: [ 'depend::apt_preferences', 'depend::apt_preferences:checkmk_agent',
             'depend-of::checkmk_agent', 'type::dependency' ]
@@ -42,12 +43,20 @@ dependencies:
             'depend-of::checkmk_agent', 'type::dependency' ]
 
 galaxy_info:
-  author: 'Reto Gantenbein'
+
+  company: 'DebOps'
+  author: 'Reto Gantenbein, Robin Schneider'
   description: 'Setup Check_MK monitoring agent'
   license: 'GNU General Public License v3'
   min_ansible_version: '1.7.0'
+
   platforms:
-  - name: Debian
-    versions:
-    - wheezy
-    - jessie
+
+    - name: Debian
+      versions:
+        - wheezy
+        - jessie
+
+  galaxy_tags:
+    - system
+    - monitoring
