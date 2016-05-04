@@ -26,10 +26,11 @@
 
 - name: Install Check_MK Agent
   apt:
-    name: 'check-mk-agent'
+    name: '{{ item }}'
     state: 'present'
     install_recommends: False
-  when: checkmk_agent is defined and checkmk_agent
+  when: checkmk_agent|d()
+  with_items: '{{ checkmk__base_packages }}'
 
 - name: Ensure the /etc/check_mk directory does exist
   file:
