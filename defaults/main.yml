@@ -159,8 +159,8 @@ checkmk_agent_group_plugin_map:
 #
 # Combined list of all plugins which are going to be installed.
 # Plugins which can be detected by looking at the host group will be added
-# according to :ref:`checkmk_agent_group_plugin_map` when
-# :ref:`checkmk_agent_plugin_autodetect` is ``True``.
+# according to ``checkmk_agent_group_plugin_map`` when
+# ``checkmk_agent_plugin_autodetect`` is ``True``.
 checkmk_agent_plugin_list: '{{ (
   (checkmk_agent_plugins|d([])) +
   (checkmk_agent_group_plugins|d([])) +
@@ -176,9 +176,9 @@ checkmk_agent_plugin_list: '{{ (
 
 # .. MySQL/MariaDB monitoring plugins options (((
 #
-# -------------------------
+# --------------------------------------------
 #   MySQL/MariaDB monitoring plugins options
-# -------------------------
+# --------------------------------------------
 
 # .. envvar:: checkmk_agent_plugin_mysql
 #
