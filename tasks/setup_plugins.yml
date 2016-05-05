@@ -1,5 +1,45 @@
 ---
 
+# Configure plugins before installing them to prevent unconfigured plugins from running.
+
+# .. Plugin: nginx_status  (((
+- name: Configure nginx_status plugin
+  template:
+    src: 'etc/check_mk/nginx_status.cfg.j2'
+    dest: '/etc/check_mk/nginx_status.cfg'
+    owner: 'root'
+    group: '{{ checkmk_agent_system_group }}'
+    mode: '0644'
+  when: ("nginx_status" in checkmk_agent_plugin_list and
+         checkmk_agent_plugin_nginx_servers is defined and checkmk_agent_plugin_nginx_servers is not string)
+
+- name: Ensure that nginx_status.cfg is absent for automatic detection
+  file:
+    path: '/etc/check_mk/nginx_status.cfg'
+    state: 'absent'
+  when: (checkmk_agent_plugin_nginx_servers|d("automatic") == "automatic")
+# .. )))
+
+# .. Plugin: mk_mysql  (((
+- name: Configure mk_mysql plugin
+  template:
+    src: 'etc/check_mk/mysql.cfg.j2'
+    dest: '/etc/check_mk/mysql.cfg'
+    owner: 'root'
+    group: '{{ checkmk_agent_system_group }}'
+    mode: '0640'
+  when: ("mk_mysql" in checkmk_agent_plugin_list and checkmk_agent_plugin_mysql == "automatic")
+
+- name: Ensure that mysql.cfg is absent when the plugin is not enabled
+  file:
+    path: '/etc/check_mk/mysql.cfg'
+    state: 'absent'
+  when: ("mk_mysql" not in checkmk_agent_plugin_list)
+
+# .. )))
+
+# .. Install plugins (((
+
 - name: Get Check_MK agent version
   shell: dpkg-query -W -f='${Version}\n' check-mk-agent 2>/dev/null | sed -e 's/^.*://' || true
   register: checkmk_agent_register_package_dpkg_version
@@ -22,17 +62,4 @@
   with_items: '{{ ansible_local.checkmk_agent.checkmk_agent_plugin_list }}'
   delegate_to: '{{ inventory_hostname }}'
 
-- name: Configure nginx_status plugin
-  template:
-    src: 'etc/check_mk/nginx_status.cfg.j2'
-    dest: '/etc/check_mk/nginx_status.cfg'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
-  when: (checkmk_agent_plugin_nginx_servers is defined and checkmk_agent_plugin_nginx_servers is not string)
-
-- name: Ensure that nginx_status.cfg is absent for automatic detection
-  file:
-    path: '/etc/check_mk/nginx_status.cfg'
-    state: 'absent'
-  when: (checkmk_agent_plugin_nginx_servers|d("automatic") == "automatic")
+# .. )))

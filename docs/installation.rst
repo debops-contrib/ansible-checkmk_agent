@@ -6,7 +6,7 @@ to your `DebOps`_ project roles directory::
 
     git clone https://github.com/debops-contrib/ansible-checkmk_agent.git
 
-:: _DebOps: http://debops.org/
+.. _DebOps: http://debops.org/
 
 Role dependencies
 ~~~~~~~~~~~~~~~~~

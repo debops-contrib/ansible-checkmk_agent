@@ -1,7 +1,7 @@
-.. _debops.dovecot:
+.. _debops.contrib-checkmk_agent:
 
-Ansible role: debops.dovecot
-============================
+Ansible role: debops.contrib-checkmk_agent
+==========================================
 
 .. toctree::
    :maxdepth: 2
@@ -10,7 +10,6 @@ Ansible role: debops.dovecot
    installation
    getting-started
    defaults
-   guides
    copyright
    credits
    changelog
