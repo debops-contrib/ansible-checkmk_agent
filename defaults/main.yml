@@ -150,7 +150,7 @@ checkmk_agent_group_plugin_map:
 #
 # Combined list of all plugins which are going to be installed.
 # Plugins which can be detected by looking at the host group will be added
-# accruing to :ref:`checkmk_agent_group_plugin_map` when
+# according to :ref:`checkmk_agent_group_plugin_map` when
 # :ref:`checkmk_agent_plugin_autodetect` is ``True``.
 checkmk_agent_plugin_list: '{{ (
   (checkmk_agent_plugins|d([])) +
@@ -161,16 +161,15 @@ checkmk_agent_plugin_list: '{{ (
 
 # .. MySQL/MariaDB monitoring plugins options (((
 #
-# -------------------------
+# --------------------------------------------
 #   MySQL/MariaDB monitoring plugins options
-# -------------------------
+# --------------------------------------------
 
 # .. envvar:: checkmk_agent_plugin_mysql
 #
-# When a host should get the ``mk_mysql`` monitoring plugin then additionally
-# automatically configure it. This will setup a database user which has read
-# access to the database server.
-# Set to ``manual`` to configure it manually.
+# Indicate how to configure the ``mk_mysql`` monitoring plugin. If this is
+# set to ``automatic`` a database user which has read access to the database
+# server is created automatically. Set to ``manual`` to configure it manually.
 # See https://mathias-kettner.de/checkmk_mysql.html
 checkmk_agent_plugin_mysql: 'automatic'
 
