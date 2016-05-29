@@ -10,7 +10,6 @@ Ansible role: debops.contrib-checkmk_agent
    installation
    getting-started
    defaults
-   guides
    copyright
    changelog
 
