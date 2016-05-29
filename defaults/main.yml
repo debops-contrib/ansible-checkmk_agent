@@ -119,7 +119,7 @@ checkmk_agent_group_plugins: []
 checkmk_agent_host_plugins: []
 
 
-# .. envvar:: checkmk_agent_plugins_autodetect
+# .. envvar:: checkmk_agent_plugin_autodetect
 #
 # Try to install Check_MK agent plugins for applications auto detected
 # via DebOps host group memberships.
@@ -150,8 +150,8 @@ checkmk_agent_group_plugin_map:
 #
 # Combined list of all plugins which are going to be installed.
 # Plugins which can be detected by looking at the host group will be added
-# according to :ref:`checkmk_agent_group_plugin_map` when
-# :ref:`checkmk_agent_plugin_autodetect` is ``True``.
+# according to :envvar:`checkmk_agent_group_plugin_map` when
+# :envvar:`checkmk_agent_plugin_autodetect` is ``True``.
 checkmk_agent_plugin_list: '{{ (
   (checkmk_agent_plugins|d([])) +
   (checkmk_agent_group_plugins|d([])) +
