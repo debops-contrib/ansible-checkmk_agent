@@ -2,17 +2,17 @@
 
 - name: Create Check_MK SSH user group
   group:
-    name: '{{ checkmk_agent_ssh_group }}'
+    name: '{{ checkmk_agent__ssh_group }}'
     system: 'yes'
 
 - name: Create Check_MK SSH user
   user:
-    name: '{{ checkmk_agent_ssh_user }}'
-    group: '{{ checkmk_agent_ssh_group }}'
+    name: '{{ checkmk_agent__ssh_user }}'
+    group: '{{ checkmk_agent__ssh_group }}'
     groups: 'sshusers'
     system: 'yes'
     shell: '/bin/sh'
-    home: '{{ checkmk_agent_user_home }}'
+    home: '{{ checkmk_agent__user_home }}'
     createhome: 'yes'
 
 - name: Create SSH authorized_keys directory
@@ -26,7 +26,7 @@
 - name: Set SSH key for public key login
   template:
     src: '{{ lookup("template_src", "etc/ssh/authorized_keys/nagios.j2") }}'
-    dest: '/etc/ssh/authorized_keys/{{ checkmk_agent_ssh_user }}'
+    dest: '/etc/ssh/authorized_keys/{{ checkmk_agent__ssh_user }}'
     owner: 'root'
     group: 'root'
     mode: '644'

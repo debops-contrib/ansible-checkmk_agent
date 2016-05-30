@@ -16,28 +16,28 @@ dependencies:
             'depend-of::checkmk_agent', 'type::dependency' ]
     etc_services__dependent_list:
       - name: 'check-mk-agent'
-        port: '{{ checkmk_agent_port }}'
+        port: '{{ checkmk_agent__port }}'
         comment: 'Check_MK agent (via xinetd)'
     when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
 
   - role: debops.ferm
     tags: [ 'depend::ferm', 'depend::ferm:checkmk_agent',
             'depend-of::checkmk_agent', 'type::dependency' ]
-    ferm__dependent_rules: '{{ checkmk_agent_ferm_dependent_rules }}'
+    ferm__dependent_rules: '{{ checkmk_agent__ferm_dependent_rules }}'
     when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
 
   - role: debops.mariadb
     mariadb__users:
-      - user: '{{ checkmk_agent_plugin_mysql_user }}'
-        password: '{{ checkmk_agent_plugin_mysql_password }}'
-        priv: '{{ checkmk_agent_plugin_mysql_priv }}'
+      - user: '{{ checkmk_agent__plugin_mysql_user }}'
+        password: '{{ checkmk_agent__plugin_mysql_password }}'
+        priv: '{{ checkmk_agent__plugin_mysql_priv }}'
         priv_default: False
         priv_aux: False
         append_privs: False
         owner: 'root'
         creds_path: '/etc/check_mk/mysql.cfg'
-    when: (("mk_mysql" in checkmk_agent_plugin_list and checkmk_agent_plugin_mysql|d("automatic") == "automatic") or
-            ((checkmk_agent_plugin_autodetect|d(True) | bool) and "debops_mariadb_server" in hostvars[inventory_hostname]["group_names"])
+    when: (("mk_mysql" in checkmk_agent__plugin_list and checkmk_agent__plugin_mysql|d("automatic") == "automatic") or
+            ((checkmk_agent__plugin_autodetect|d(True) | bool) and "debops_mariadb_server" in hostvars[inventory_hostname]["group_names"])
           )
     tags: [ 'depend::mariadb', 'depend::mariadb:checkmk_agent',
             'depend-of::checkmk_agent', 'type::dependency' ]

@@ -1,9 +1,9 @@
-{% set checkmk_agent_tpl_plugin_list = checkmk_agent_plugin_list %}
-{% if checkmk_agent_plugin_autodetect|d() %}
-{%   for hostgroup in hostvars[inventory_hostname]['group_names'] | intersect(checkmk_agent_group_plugin_map.keys()) %}
-{%     set _ = checkmk_agent_tpl_plugin_list.append(checkmk_agent_group_plugin_map[hostgroup]) %}
+{% set checkmk_agent__tpl_plugin_list = checkmk_agent__plugin_list %}
+{% if checkmk_agent__plugin_autodetect|d() %}
+{%   for hostgroup in hostvars[inventory_hostname]['group_names'] | intersect(checkmk_agent__group_plugin_map.keys()) %}
+{%     set _ = checkmk_agent__tpl_plugin_list.append(checkmk_agent__group_plugin_map[hostgroup]) %}
 {%   endfor %}
 {% endif %}
 {
-"checkmk_agent_plugin_list" : {{ checkmk_agent_tpl_plugin_list | to_nice_json }}
+"checkmk_agent__plugin_list" : {{ checkmk_agent__tpl_plugin_list | to_nice_json }}
 }
