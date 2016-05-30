@@ -2,24 +2,24 @@
 
 - name: Get Check_MK agent version
   shell: dpkg-query -W -f='${Version}\n' check-mk-agent 2>/dev/null | sed -e 's/^.*://' || true
-  register: checkmk_agent_register_package_dpkg_version
+  register: checkmk_agent__register_package_dpkg_version
   changed_when: False
-  when: checkmk_agent_git_version == 'auto'
+  when: checkmk_agent__git_version == 'auto'
 
 - name: Clone Check_MK agent source
   git:
-    repo: '{{ checkmk_agent_git_repo }}'
-    dest: '{{ checkmk_agent_git_dest }}'
-    version: '{{ "v" + checkmk_agent_register_package_dpkg_version.stdout.split("-")[0] if checkmk_agent_git_version == "auto" else checkmk_agent_git_version }}'
+    repo: '{{ checkmk_agent__git_repo }}'
+    dest: '{{ checkmk_agent__git_dest }}'
+    version: '{{ "v" + checkmk_agent__register_package_dpkg_version.stdout.split("-")[0] if checkmk_agent__git_version == "auto" else checkmk_agent__git_version }}'
     update: True
 
 - name: Install Check_MK plugins
   synchronize:
-    src: '{{ checkmk_agent_git_dest }}/agents/plugins/{{ item }}'
-    dest: '{{ checkmk_agent_plugin_path }}'
+    src: '{{ checkmk_agent__git_dest }}/agents/plugins/{{ item }}'
+    dest: '{{ checkmk_agent__plugin_path }}'
     checksum: True
     mode: 'push'
-  with_items: '{{ ansible_local.checkmk_agent.checkmk_agent_plugin_list }}'
+  with_items: '{{ ansible_local.checkmk_agent.checkmk_agent__plugin_list }}'
   delegate_to: '{{ inventory_hostname }}'
 
 - name: Configure nginx_status plugin
@@ -29,10 +29,10 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  when: (checkmk_agent_plugin_nginx_servers is defined and checkmk_agent_plugin_nginx_servers is not string)
+  when: (checkmk_agent__plugin_nginx_servers is defined and checkmk_agent__plugin_nginx_servers is not string)
 
 - name: Ensure that nginx_status.cfg is absent for automatic detection
   file:
     path: '/etc/check_mk/nginx_status.cfg'
     state: 'absent'
-  when: (checkmk_agent_plugin_nginx_servers|d("automatic") == "automatic")
+  when: (checkmk_agent__plugin_nginx_servers|d("automatic") == "automatic")

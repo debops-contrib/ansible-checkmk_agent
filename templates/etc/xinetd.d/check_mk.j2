@@ -3,12 +3,12 @@
 service check_mk
 {
     type           = UNLISTED
-    port           = {{ checkmk_agent_port }}
+    port           = {{ checkmk_agent__port }}
     socket_type    = stream
     protocol       = tcp
     wait           = no
     user           = root
-    server         = {{ checkmk_agent_exec }}
+    server         = {{ checkmk_agent__exec }}
 
 {#  # If you use fully redundant monitoring and poll the client
     # from more then one monitoring servers in parallel you might
@@ -16,8 +16,8 @@ service check_mk
     #server         = /usr/bin/check_mk_caching_agent
 #}
     # configure the IP address(es) of your Nagios server here:
-{% if checkmk_agent_allow is defined and checkmk_agent_allow | length > 0 %}
-    only_from      = {{ checkmk_agent_allow | join(' ') }}
+{% if checkmk_agent__allow is defined and checkmk_agent__allow | length > 0 %}
+    only_from      = {{ checkmk_agent__allow | join(' ') }}
 {% else %}
     #only_from      = 127.0.0.1 10.0.20.1 10.0.20.2
 {% endif %}

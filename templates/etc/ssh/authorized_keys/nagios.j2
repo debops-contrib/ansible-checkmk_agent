@@ -1,3 +1,3 @@
 # {{ ansible_managed }}
 
-command="/usr/bin/sudo {{ checkmk_agent_exec }}"{% if checkmk_agent_allow is defined and checkmk_agent_allow | length > 0 %},from="{{ checkmk_agent_allow | join(',')}}"{% endif %} {{ checkmk_agent_user_key }}
+command="/usr/bin/sudo {{ checkmk_agent__exec }}"{% if checkmk_agent__allow is defined and checkmk_agent__allow | length > 0 %},from="{{ checkmk_agent__allow | join(',')}}"{% endif %} {{ checkmk_agent__user_key }}

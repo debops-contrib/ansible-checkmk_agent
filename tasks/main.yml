@@ -18,11 +18,11 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  register: checkmk_agent_register_local_facts
+  register: checkmk_agent__register_local_facts
 
 - name: Re-read local facts if they have been modified
   action: setup
-  when: checkmk_agent_register_local_facts.changed
+  when: checkmk_agent__register_local_facts.changed
 
 - name: Install Check_MK Agent
   apt:
@@ -50,7 +50,7 @@
   tags: [ 'role::checkmk_agent:plugins' ]
   when: (checkmk_agent|d() and
          ansible_local|d() and ansible_local.checkmk_agent|d() and
-         ansible_local.checkmk_agent.checkmk_agent_plugin_list|d())
+         ansible_local.checkmk_agent.checkmk_agent__plugin_list|d())
 
 - name: DebOps post_tasks hook
   include: "{{ lookup('task_src', 'checkmk_agent/post_main.yml') }}"
