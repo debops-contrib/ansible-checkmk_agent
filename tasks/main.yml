@@ -30,7 +30,7 @@
     state: 'present'
     install_recommends: False
   when: checkmk_agent|d()
-  with_items: '{{ checkmk__base_packages }}'
+  with_items: '{{ checkmk_agent__base_packages }}'
 
 - name: Ensure the /etc/check_mk directory does exist
   file:

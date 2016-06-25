@@ -11,11 +11,22 @@
 #   Basic configuration options
 # -------------------------------
 
-# .. envvar:: apt_cacher_ng__base_packages
+# .. envvar:: checkmk_agent__base_packages
 #
 # List of base packages to install.
-checkmk__base_packages:
+checkmk_agent__base_packages:
   - 'check-mk-agent'
+
+
+# .. envvar:: checkmk_agent__apt_preferences__dependent_list
+#
+# Configuration for the ``debops.apt_preferences`` role.
+checkmk_agent__apt_preferences__dependent_list:
+
+  - package: 'check-mk-agent'
+    backports: [ 'jessie' ]
+    reason: 'Package not available in stable Debian Jessie'
+    by_role: 'debops-contrib.checkmk_agent'
 
 
 # .. envvar:: checkmk_agent
@@ -34,8 +45,9 @@ checkmk_agent__allow: []
 
 # .. envvar:: checkmk_agent__ferm_dependent_rules
 #
-# Configuration of the Linux firewall using ``debops.ferm``.
-checkmk_agent__ferm_dependent_rules:
+# Configuration of the Linux firewall for the ``debops.ferm`` role.
+checkmk_agent__ferm__dependent_rules:
+
   - type: 'accept'
     dport: [ 'check-mk-agent' ]
     saddr: '{{ checkmk_agent__allow }}'
@@ -61,6 +73,17 @@ checkmk_agent__exec: '/usr/bin/check_mk_agent'
 #
 # Listen port for Check_MK agent.
 checkmk_agent__port: '6556'
+
+
+# .. envvar:: checkmk_agent__etc_services__dependent_list
+#
+# Configuration for the ``debops.etc_services`` role which registers port
+# numbers for Check_MK agent.
+checkmk_agent__etc_services__dependent_list:
+
+  - name: 'check-mk-agent'
+    port: '{{ checkmk_agent__port }}'
+    comment: 'Check_MK agent (via xinetd)'
 
 # .. )))
 
@@ -193,6 +216,21 @@ checkmk_agent__plugin_mysql_password: "{{ lookup('password', secret + '/mariadb/
 #
 # Privilages of the database user used for monitoring.
 checkmk_agent__plugin_mysql_priv: '*.*:SELECT,SHOW DATABASES'
+
+
+# .. envvar:: checkmk_agent__mariadb__users
+#
+# Database user definition for the ``debops.mariadb`` role.
+checkmk_agent__mariadb__users:
+
+  - user: '{{ checkmk_agent__plugin_mysql_user }}'
+    password: '{{ checkmk_agent__plugin_mysql_password }}'
+    priv: '{{ checkmk_agent__plugin_mysql_priv }}'
+    priv_default: False
+    priv_aux: False
+    append_privs: False
+    owner: 'root'
+    creds_path: '/etc/check_mk/mysql.cfg'
 
 # .. )))
 
