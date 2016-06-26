@@ -12,12 +12,9 @@ suite.
 Installation
 ~~~~~~~~~~~~
 
-This role requires at least Ansible ``v1.9.0``. To install it, clone it
-to your `DebOps`_ project roles directory::
+This role requires at least Ansible ``v1.9``. To install it, run::
 
-    git clone https://github.com/debops-contrib/ansible-checkmk_agent.git debops-contrib.ansible_checkmk_agent
-
-.. _DebOps: http://debops.org/
+    ansible-galaxy install debops-contrib.checkmk_agent
 
 ..
  Local Variables:
