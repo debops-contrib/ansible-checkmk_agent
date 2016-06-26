@@ -1,3 +1,14 @@
+Getting started
+===============
+
+Example playbook
+----------------
+
+Here's an example playbook that uses the ``debops-contrib.checkmk_agent`` role:
+
+.. literalinclude:: playbooks/checkmk_agent.yml
+   :language: yaml
+
 
 Ansible tags
 ------------
@@ -18,16 +29,16 @@ Available role tags:
   this to omit them using ``--skip-tags`` parameter.
 
 ``depend-of::checkmk_agent``
-  Execute all ``debops.contrib-checkmk_agent`` role dependencies in its context.
+  Execute all ``debops-contrib.checkmk_agent`` role dependencies in its context.
 
 ``depend::apt_preferences:checkmk_agent``
-  Run ``debops.apt_preferences`` dependent role in ``debops.contrib-checkmk_agent`` context.
+  Run ``debops.apt_preferences`` dependent role in ``debops-contrib.checkmk_agent`` context.
 
 ``depend::etc_services:checkmk_agent``
-  Run ``debops.etc_services`` dependent role in ``debops.contrib-checkmk_agent`` context.
+  Run ``debops.etc_services`` dependent role in ``debops-contrib.checkmk_agent`` context.
 
 ``depend::ferm:checkmk_agent``
-  Run ``debops.ferm`` dependent role in ``debops.contrib-checkmk_agent`` context.
+  Run ``debops.ferm`` dependent role in ``debops-contrib.checkmk_agent`` context.
 
 ``role::checkmk_agent:plugins``
   Run tasks related to Check_MK agent plugin configuration.
