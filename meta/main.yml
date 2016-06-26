@@ -7,8 +7,8 @@ galaxy_info:
   company: 'DebOps'
   author: 'Reto Gantenbein, Robin Schneider'
   description: 'Setup Check_MK monitoring agent'
-  license: 'GNU General Public License v3'
-  min_ansible_version: '1.9.0'
+  license: 'GPLv3'
+  min_ansible_version: '1.9'
 
   platforms:
 
