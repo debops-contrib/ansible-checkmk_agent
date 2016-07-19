@@ -26,7 +26,7 @@
       when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
 
     - role: debops.authorized_keys
-      when: [ 'depend::authorized_keys', 'depend::authorized_keys:checkmk_agent',
+      tags: [ 'depend::authorized_keys', 'depend::authorized_keys:checkmk_agent',
               'depend-of::checkmk_agent', 'type::dependency' ]
       authorized_keys__dependent_list:
         - '{{ checkmk_agent__authorized_keys__dependent_list }}'
