@@ -114,7 +114,11 @@ checkmk_agent__user_home: '/var/lib/nagios'
 # .. envvar:: checkmk_agent__user_key
 #
 # SSH Public key for logging in with SSH user.
-checkmk_agent__user_key: '{{ hostvars[groups["debops_service_checkmk_server"][0]].ansible_local.checkmk_server.ssh_publickey|d("") }}'
+checkmk_agent__user_key: '{{ hostvars[groups["debops_service_checkmk_server"][0]].ansible_local.checkmk_server.ssh_publickey|d("")
+                             if ("debops_service_checkmk_server" in groups) and
+                                (groups["debops_service_checkmk_server"] | length > 0) and
+                                (hostvars[groups["debops_service_checkmk_server"][0]]|d({}))
+                             else "" }}'
 
 
 # .. envvar:: checkmk_agent__authorized_keys__dependent_list
