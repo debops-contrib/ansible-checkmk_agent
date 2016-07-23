@@ -126,7 +126,7 @@ checkmk_agent__user_key: '{{ hostvars[groups["debops_service_checkmk_server"][0]
 # Authorized key configuration for the ``debops.authorized_keys`` role.
 checkmk_agent__authorized_keys__dependent_list:
   - name: '{{ checkmk_agent__ssh_user }}'
-    ssh_keys:
+    sshkeys:
       - '{{ checkmk_agent__user_key }}'
     options: '{{ authorized_keys__options_map.strict }}'
     key_options: 'command="{{ "/usr/bin/sudo " if not checkmk_agent__ssh_user == "root" else "" }}{{ checkmk_agent__exec }}"'
