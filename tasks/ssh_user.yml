@@ -15,22 +15,6 @@
     home: '{{ checkmk_agent__user_home }}'
     createhome: 'yes'
 
-- name: Create SSH authorized_keys directory
-  file:
-    name: '/etc/ssh/authorized_keys'
-    owner: 'root'
-    group: 'root'
-    mode: '755'
-    state: 'directory'
-
-- name: Set SSH key for public key login
-  template:
-    src: '{{ lookup("template_src", "etc/ssh/authorized_keys/nagios.j2") }}'
-    dest: '/etc/ssh/authorized_keys/{{ checkmk_agent__ssh_user }}'
-    owner: 'root'
-    group: 'root'
-    mode: '644'
-
 - name: Enable sudo rule for Check_MK SSH user
   template:
     src: '{{ lookup("template_src", "etc/sudoers.d/check-mk-agent.j2") }}'
