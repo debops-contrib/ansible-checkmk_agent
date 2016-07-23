@@ -41,7 +41,8 @@
     mode: '0755'
 
 - include: ssh_user.yml
-  when: (checkmk_agent|d() and 'ssh' in checkmk_agent)
+  when: ((checkmk_agent|d() and 'ssh' in checkmk_agent) and
+         (not checkmk_agent__ssh_user == "root"))
 
 - include: xinetd.yml
   when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
