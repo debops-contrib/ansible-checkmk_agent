@@ -56,6 +56,23 @@ checkmk_agent__ferm__dependent_rules:
 
 # .. )))
 
+# .. Monitoring site integration (((
+#
+# -------------------------------
+#   Monitoring site integration
+# -------------------------------
+
+# .. envvar:: checkmk_agent__site_name
+#
+# Define Check_MK monitoring site name where agent is registered.
+checkmk_agent__site: '{{ hostvars[groups["debops_service_checkmk_server"][0]].ansible_local.checkmk_server[0]|d("debops")
+                         if ("debops_service_checkmk_server" in groups) and
+                            (groups["debops_service_checkmk_server"] | length > 0) and
+                            (hostvars[groups["debops_service_checkmk_server"][0]]|d({}))
+                         else "debops" }}'
+
+# .. )))
+
 # .. Agent xinetd options (((
 #
 # ------------------------
@@ -114,7 +131,7 @@ checkmk_agent__user_home: '/var/lib/nagios'
 # .. envvar:: checkmk_agent__user_key
 #
 # SSH Public key for logging in with SSH user.
-checkmk_agent__user_key: '{{ hostvars[groups["debops_service_checkmk_server"][0]].ansible_local.checkmk_server.ssh_publickey|d("")
+checkmk_agent__user_key: '{{ hostvars[groups["debops_service_checkmk_server"][0]].ansible_local.checkmk_server[checkmk_agent__site].ssh_public_key|d("")
                              if ("debops_service_checkmk_server" in groups) and
                                 (groups["debops_service_checkmk_server"] | length > 0) and
                                 (hostvars[groups["debops_service_checkmk_server"][0]]|d({}))
