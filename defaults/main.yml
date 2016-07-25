@@ -62,13 +62,29 @@ checkmk_agent__ferm__dependent_rules:
 #   Monitoring site integration
 # -------------------------------
 
+# .. envvar:: checkmk_agent__server
+#
+# Ansible inventory name of Check_MK server. By default it will be autodetected
+# via `debops_service_checkmk_server` host group configuration.
+checkmk_agent__server: '{{ groups["debops_service_checkmk_server"][0]
+                           if ("debops_service_checkmk_server" in groups) and
+                              (groups["debops_service_checkmk_server"] | length > 0)
+                           else "" }}'
+
+
 # .. envvar:: checkmk_agent__site_name
 #
-# Define Check_MK monitoring site name where agent is registered.
-checkmk_agent__site: '{{ hostvars[groups["debops_service_checkmk_server"][0]].ansible_local.checkmk_server[0]|d("debops")
-                         if ("debops_service_checkmk_server" in groups) and
-                            (groups["debops_service_checkmk_server"] | length > 0) and
-                            (hostvars[groups["debops_service_checkmk_server"][0]]|d({}))
+# Define Check_MK monitoring site name where the agent is registered. By default
+# it will be autodetected from the local facts stored under the `checkmk_server`
+# dictionary key. Fallback to site name `debops` if `checkmk_agent__server` is
+# undefined or the Ansible local facts for `checkmk_agent__server` can't be
+# found. If the Check_MK server is managed manually this variable must be
+# defined accordingly in the Ansible inventory.
+checkmk_agent__site: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_server[0]|d("debops")
+                         if (checkmk_agent__server|d() and
+                             (checkmk_agent__server in hostvars) and
+                             ("ansible_local" in hostvars[checkmk_agent__server]) and
+                             ("checkmk_server" in hostvars[checkmk_agent__server].ansible_local))
                          else "debops" }}'
 
 # .. )))
@@ -130,11 +146,16 @@ checkmk_agent__user_home: '/var/lib/nagios'
 
 # .. envvar:: checkmk_agent__user_key
 #
-# SSH Public key for logging in with SSH user.
-checkmk_agent__user_key: '{{ hostvars[groups["debops_service_checkmk_server"][0]].ansible_local.checkmk_server[checkmk_agent__site].ssh_public_key|d("")
-                             if ("debops_service_checkmk_server" in groups) and
-                                (groups["debops_service_checkmk_server"] | length > 0) and
-                                (hostvars[groups["debops_service_checkmk_server"][0]]|d({}))
+# Public key for user authentication when accessing the agent via SSH. By
+# default it will be autodetected from the local facts stored under the
+# `checkmk_server` dictionary key. If the Check_MK server is managed manually
+# this variable must be defined accordingly in the Ansible inventory.
+checkmk_agent__user_key: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_server[checkmk_agent__site].ssh_public_key|d("")
+                             if (checkmk_agent__server|d() and
+                                 (checkmk_agent__server in hostvars) and
+                                 ("ansible_local" in hostvars[checkmk_agent__server]) and
+                                 ("checkmk_server" in hostvars[checkmk_agent__server].ansible_local) and
+                                 (checkmk_agent__site in hostvars[checkmk_agent__server].ansible_local.checkmk_server))
                              else "" }}'
 
 
