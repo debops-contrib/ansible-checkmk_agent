@@ -41,7 +41,7 @@
     return_content: yes
     validate_certs: no
   when: '{{ checkmk_agent__register_add_host.skipped|d(False) and
-           (not checkmk_agent__host_attributes|to_json == checkmk_agent__register_get_host.json.result.attributes|d({})|to_json) }}'
+           (not checkmk_agent__host_attributes|to_nice_json == checkmk_agent__register_get_host.json.result.attributes|d({})|to_nice_json) }}'
   register: checkmk_agent__register_update_host
   changed_when: ("json" in checkmk_agent__register_update_host) and
                 (checkmk_agent__register_update_host.json.result_code == 0)
