@@ -1,5 +1,12 @@
 ---
 
+- name: Set host attribute fact
+  set_fact:
+    checkmk_agent__fact_host_attributes: '{{ checkmk_agent__default_host_attributes |
+                                             combine(checkmk_agent__host_attributes, recursive=True)
+                                             if "contactgroups" in checkmk_agent__host_attributes
+                                             else checkmk_agent__host_attributes }}'
+
 - name: Query host on Check_MK site
   uri:
     url: '{{ checkmk_agent__autojoin_url }}?action=get_host&_username={{ checkmk_agent__autojoin_user }}&_secret={{ checkmk_agent__autojoin_secret }}&output_format=json'
@@ -16,7 +23,7 @@
   uri:
     url: '{{ checkmk_agent__autojoin_url }}?action=add_host&_do_confirm=yes&_username={{ checkmk_agent__autojoin_user }}&_secret={{ checkmk_agent__autojoin_secret }}&output_format=json'
     method: 'POST'
-    body: 'request={ "hostname": "{{ checkmk_agent__hostname }}", "folder": "/", "attributes": {{ checkmk_agent__host_attributes|to_json }} }'
+    body: 'request={ "hostname": "{{ checkmk_agent__hostname }}", "folder": "/", "attributes": {{ checkmk_agent__fact_host_attributes|to_json }} }'
     return_content: yes
     validate_certs: no
   when: '{{ checkmk_agent__register_get_host.json.result == "No such host" }}'
@@ -30,7 +37,7 @@
   uri:
     url: '{{ checkmk_agent__autojoin_url }}?action=edit_host&_username={{ checkmk_agent__autojoin_user }}&_secret={{ checkmk_agent__autojoin_secret }}&output_format=json'
     method: 'POST'
-    body: 'request={ "hostname": "{{ checkmk_agent__hostname }}", "attributes": {{ checkmk_agent__host_attributes|to_json }} }'
+    body: 'request={ "hostname": "{{ checkmk_agent__hostname }}", "attributes": {{ checkmk_agent__fact_host_attributes|to_json }} }'
     return_content: yes
     validate_certs: no
   when: '{{ checkmk_agent__register_add_host.skipped|d(False) and
