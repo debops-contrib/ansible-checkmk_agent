@@ -7,7 +7,7 @@ find documentation and examples for them.
 
 .. contents::
    :local:
-      :depth: 1
+   :depth: 1
 
 .. _checkmk_agent__host_attributes:
 
