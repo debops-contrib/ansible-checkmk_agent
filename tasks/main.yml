@@ -53,5 +53,10 @@
          ansible_local|d() and ansible_local.checkmk_agent|d() and
          ansible_local.checkmk_agent.checkmk_agent__plugin_list|d())
 
+- include: autojoin.yml
+  tags: [ 'role::checkmk_agent:autojoin' ]
+  when: (checkmk_agent|d() and
+         checkmk_agent__autojoin|d())
+
 - name: DebOps post_tasks hook
   include: "{{ lookup('task_src', 'checkmk_agent/post_main.yml') }}"

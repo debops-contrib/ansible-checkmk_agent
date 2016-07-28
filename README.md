@@ -28,6 +28,10 @@ This role requires at least Ansible `v1.9`. To install it, run:
 ansible-galaxy install debops-contrib.checkmk_agent
 ```
 
+### Role dependencies
+
+- `debops.secret`
+
 ### Are you using this as a standalone role without DebOps?
 
 You may need to include missing roles from the [DebOps common

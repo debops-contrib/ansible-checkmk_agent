@@ -87,6 +87,56 @@ checkmk_agent__site: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_s
                              ("checkmk_server" in hostvars[checkmk_agent__server].ansible_local))
                          else "debops" }}'
 
+
+# .. envvar:: checkmk_agent__autojoin
+#
+# Automatically add agent host to the Check_MK monitoring site.
+checkmk_agent__autojoin: '{{ True if checkmk_agent__autojoin_url else False }}'
+
+
+# .. envvar:: checkmk_agent__autojoin_url
+#
+# Check_MK server WebAPI URL for agent registration. By default it will be
+# autodetected from the local facts stored under the `checkmk_server`
+# dictionary key. If the Check_MK server is managed manually this variable
+# must be defined accordingly in the Ansible inventory.
+checkmk_agent__autojoin_url: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_server[checkmk_agent__site].webapi_url|d("")
+                                if (checkmk_agent__server|d() and
+                                    (checkmk_agent__server in hostvars) and
+                                    ("ansible_local" in hostvars[checkmk_agent__server]) and
+                                    ("checkmk_server" in hostvars[checkmk_agent__server].ansible_local) and
+                                    (checkmk_agent__site in hostvars[checkmk_agent__server].ansible_local.checkmk_server))
+                                else "" }}'
+
+
+# .. envvar:: checkmk_agent__autojoin_user
+#
+# Account for agent registration via Check_MK WebAPI.
+checkmk_agent__autojoin_user: 'ansible'
+
+
+# .. envvar:: checkmk_agent__autojoin_secret
+#
+# Authentication secret for WebAPI registration. If the Check_MK server is
+# managed manually the password path must be adjusted accordingly in the
+# Ansible inventory.
+checkmk_agent__autojoin_secret: '{{ lookup("password", secret + "/credentials/" + hostvars[checkmk_agent__server].ansible_fqdn + "/checkmk_server/" + checkmk_agent__site + "/" + checkmk_agent__autojoin_user + "/secret")|d("")
+                                    if checkmk_agent__server|d() and checkmk_agent__site|d() else "" }}'
+
+
+# .. envvar:: checkmk_agent__hostname
+#
+# Hostname of the agent host used for registration.
+checkmk_agent__hostname: '{{ ansible_fqdn }}'
+
+
+# .. envvar:: checkmk_agent__host_attributes
+#
+# Check_MK attributes and WATO tags used for managing the host. For more
+# details check :ref:`checkmk_agent__host_attributes`.
+checkmk_agent__host_attributes:
+  tag_agent: '{{ "cmk-agent-ssh" if "ssh" in checkmk_agent else "cmk-agent" }}'
+
 # .. )))
 
 # .. Agent xinetd options (((
