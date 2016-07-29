@@ -137,6 +137,15 @@ checkmk_agent__hostname: '{{ ansible_fqdn }}'
 checkmk_agent__host_attributes:
   tag_agent: '{{ "cmk-agent-ssh" if "ssh" in checkmk_agent else "cmk-agent" }}'
 
+
+# .. envvar:: checkmk_agent__discovery_mode
+#
+# Service discovery mode. Possible values are ``new`` (only find new services),
+# ``remove`` (remove exceeding services), ``fixall`` (remove exceeding and add
+# new services), ``refresh`` (clean all autochecks and discover from scratch)
+# and ``False`` (don't run service discovery).
+checkmk_agent__discovery_mode: 'new'
+
 # .. )))
 
 # .. Agent xinetd options (((
