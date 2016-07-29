@@ -29,11 +29,11 @@ checkmk_agent__apt_preferences__dependent_list:
     by_role: 'debops-contrib.checkmk_agent'
 
 
-# .. envvar:: checkmk_agent
+# .. envvar:: checkmk_agent__type
 #
-# Check_MK agent query protocol. Set to ``False`` to disable agent setup.
-# Valid options are ``ssh`` and ``xinetd``.
-checkmk_agent: [ 'xinetd' ]
+# List of Check_MK agent query protocols. Valid options are ``ssh`` and
+# ``xinetd``.
+checkmk_agent__type: [ 'ssh' ]
 
 
 # .. envvar:: checkmk_agent__allow
