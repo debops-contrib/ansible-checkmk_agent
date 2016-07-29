@@ -188,19 +188,19 @@ checkmk_agent__etc_services__dependent_list:
 # .. envvar:: checkmk_agent__ssh_user
 #
 # SSH user to query Check_MK agent.
-checkmk_agent__ssh_user: 'nagios'
+checkmk_agent__ssh_user: 'checkmk'
 
 
 # .. envvar:: checkmk_agent__ssh_group
 #
 # Primary group of SSH user querying Check_MK agent.
-checkmk_agent__ssh_group: 'nagios'
+checkmk_agent__ssh_group: 'checkmk'
 
 
 # .. envvar:: checkmk_agent__user_home
 #
 # Home directory of SSH user querying Check_MK agent.
-checkmk_agent__user_home: '/var/lib/nagios'
+checkmk_agent__user_home: '/var/lib/check_mk_agent'
 
 
 # .. envvar:: checkmk_agent__user_key
