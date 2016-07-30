@@ -29,7 +29,6 @@
     name: '{{ item }}'
     state: 'present'
     install_recommends: False
-  when: checkmk_agent|d()
   with_items: '{{ checkmk_agent__base_packages }}'
 
 - name: Ensure the /etc/check_mk directory does exist
@@ -41,22 +40,20 @@
     mode: '0755'
 
 - include: ssh_user.yml
-  when: ((checkmk_agent|d() and 'ssh' in checkmk_agent) and
-         (not checkmk_agent__ssh_user == "root"))
+  when: ('ssh' in checkmk_agent__type|d(['ssh'])) and
+        (not checkmk_agent__ssh_user == "root")
 
 - include: xinetd.yml
-  when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
+  when: ('xinetd' in checkmk_agent__type|d(['ssh']))
 
 - include: setup_plugins.yml
   tags: [ 'role::checkmk_agent:plugins' ]
-  when: (checkmk_agent|d() and
-         ansible_local|d() and ansible_local.checkmk_agent|d() and
+  when: (ansible_local|d() and ansible_local.checkmk_agent|d() and
          ansible_local.checkmk_agent.checkmk_agent__plugin_list|d())
 
 - include: autojoin.yml
   tags: [ 'role::checkmk_agent:autojoin' ]
-  when: (checkmk_agent|d() and
-         checkmk_agent__autojoin|d())
+  when: (checkmk_agent__autojoin|d())
 
 - name: DebOps post_tasks hook
   include: "{{ lookup('task_src', 'checkmk_agent/post_main.yml') }}"

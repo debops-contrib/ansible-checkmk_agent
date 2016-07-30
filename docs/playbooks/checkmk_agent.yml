@@ -16,21 +16,21 @@
               'depend-of::checkmk_agent', 'type::dependency' ]
       etc_services__dependent_list:
         - '{{ checkmk_agent__etc_services__dependent_list }}'
-      when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
+      when: ('xinetd' in checkmk_agent__type|d(['ssh']))
 
     - role: debops.ferm
       tags: [ 'depend::ferm', 'depend::ferm:checkmk_agent',
               'depend-of::checkmk_agent', 'type::dependency' ]
       ferm__dependent_rules:
         - '{{ checkmk_agent__ferm__dependent_rules }}'
-      when: (checkmk_agent|d() and 'xinetd' in checkmk_agent)
+      when: ('xinetd' in checkmk_agent__type|d(['ssh']))
 
     - role: debops.authorized_keys
       tags: [ 'depend::authorized_keys', 'depend::authorized_keys:checkmk_agent',
               'depend-of::checkmk_agent', 'type::dependency' ]
       authorized_keys__dependent_list:
         - '{{ checkmk_agent__authorized_keys__dependent_list }}'
-      when: (checkmk_agent|d() and 'ssh' in checkmk_agent)
+      when: ('ssh' in checkmk_agent__type|d(['ssh']))
 
     - role: debops.mariadb
       tags: [ 'depend::mariadb', 'depend::mariadb:checkmk_agent',

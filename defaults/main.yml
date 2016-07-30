@@ -29,11 +29,11 @@ checkmk_agent__apt_preferences__dependent_list:
     by_role: 'debops-contrib.checkmk_agent'
 
 
-# .. envvar:: checkmk_agent
+# .. envvar:: checkmk_agent__type
 #
-# Check_MK agent query protocol. Set to ``False`` to disable agent setup.
-# Valid options are ``ssh`` and ``xinetd``.
-checkmk_agent: [ 'xinetd' ]
+# List of Check_MK agent query protocols. Valid options are ``ssh`` and
+# ``xinetd``.
+checkmk_agent__type: [ 'ssh' ]
 
 
 # .. envvar:: checkmk_agent__allow
@@ -188,19 +188,31 @@ checkmk_agent__etc_services__dependent_list:
 # .. envvar:: checkmk_agent__ssh_user
 #
 # SSH user to query Check_MK agent.
-checkmk_agent__ssh_user: 'nagios'
+checkmk_agent__ssh_user: 'checkmk'
 
 
 # .. envvar:: checkmk_agent__ssh_group
 #
 # Primary group of SSH user querying Check_MK agent.
-checkmk_agent__ssh_group: 'nagios'
+checkmk_agent__ssh_group: 'checkmk'
+
+
+# .. envvar:: checkmk_agent__ssh_allow_group
+#
+# Group membership required to access the system by SSH. If the ``AllowGroups``
+# :file:`sshd_config` option is not managed by ``debops.sshd`` this variable
+# might need to be defined accordingly in the Ansible inventory.
+checkmk_agent__ssh_allow_group: '{{ "sshusers"
+                                    if ("sshd" in ansible_local) and
+                                       ("allow_groups" in ansible_local.sshd) and
+                                       ("sshusers" in ansible_local.sshd.allow_groups)
+                                    else "" }}'
 
 
 # .. envvar:: checkmk_agent__user_home
 #
 # Home directory of SSH user querying Check_MK agent.
-checkmk_agent__user_home: '/var/lib/nagios'
+checkmk_agent__user_home: '/var/lib/check_mk_agent'
 
 
 # .. envvar:: checkmk_agent__user_key
@@ -223,6 +235,7 @@ checkmk_agent__user_key: '{{ hostvars[checkmk_agent__server].ansible_local.check
 # Authorized key configuration for the ``debops.authorized_keys`` role.
 checkmk_agent__authorized_keys__dependent_list:
   - name: '{{ checkmk_agent__ssh_user }}'
+    group: '{{ checkmk_agent__ssh_group }}'
     sshkeys:
       - '{{ checkmk_agent__user_key }}'
     options: '{{ authorized_keys__options_map.strict }}'

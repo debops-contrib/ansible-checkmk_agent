@@ -9,7 +9,7 @@
   user:
     name: '{{ checkmk_agent__ssh_user }}'
     group: '{{ checkmk_agent__ssh_group }}'
-    groups: 'sshusers'
+    groups: '{{ checkmk_agent__ssh_allow_group|d(omit) }}'
     system: 'yes'
     shell: '/bin/sh'
     home: '{{ checkmk_agent__user_home }}'
@@ -21,4 +21,4 @@
     dest: '/etc/sudoers.d/check-mk-agent'
     owner: 'root'
     group: 'root'
-    mode: '0644'
+    mode: '0440'
