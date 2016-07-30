@@ -197,6 +197,18 @@ checkmk_agent__ssh_user: 'checkmk'
 checkmk_agent__ssh_group: 'checkmk'
 
 
+# .. envvar:: checkmk_agent__ssh_allow_group
+#
+# Group membership required to access the system by SSH. If the ``AllowGroups``
+# :file:`sshd_config` option is not managed by ``debops.sshd`` this variable
+# might need to be defined accordingly in the Ansible inventory.
+checkmk_agent__ssh_allow_group: '{{ "sshusers"
+                                    if ("sshd" in ansible_local) and
+                                       ("allow_groups" in ansible_local.sshd) and
+                                       ("sshusers" in ansible_local.sshd.allow_groups)
+                                    else "" }}'
+
+
 # .. envvar:: checkmk_agent__user_home
 #
 # Home directory of SSH user querying Check_MK agent.
