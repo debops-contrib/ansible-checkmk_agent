@@ -1,4 +1,4 @@
-Default variables: configuration
+Default variable details
 ================================
 
 Some of the ``debops-contrib.checkmk_agent`` default variables have more
@@ -51,6 +51,6 @@ The following configuration keys are supported:
 
 ``tag_<wato_tag>``
   Optional. Any tag defined in the WATO Web interface or when using the server
-  role via ``checkmk_server__multisite_cfg_wato_host_tags`` can be assigned
+  role via :envvar:`checkmk_server__multisite_cfg_wato_host_tags` can be assigned
   here. Example: To set the WATO tag ``criticality`` to ``test`` this would be
   defined as ``tag_criticality: test``.

@@ -14,9 +14,9 @@ Ansible tags
 ------------
 
 You can use Ansible ``--tags`` or ``--skip-tags`` parameters to limit what
-tasks are performed during Ansible run. This can be used after host is first
+tasks are performed during Ansible run. This can be used after a host was first
 configured to speed up playbook execution, when you are sure that most of the
-configuration has not been changed.
+configuration is already in the desired state.
 
 Available role tags:
 
@@ -32,13 +32,13 @@ Available role tags:
   Execute all ``debops-contrib.checkmk_agent`` role dependencies in its context.
 
 ``depend::apt_preferences:checkmk_agent``
-  Run ``debops.apt_preferences`` dependent role in ``debops-contrib.checkmk_agent`` context.
+  Run debops.apt_preferences_ dependent role in ``debops-contrib.checkmk_agent`` context.
 
 ``depend::etc_services:checkmk_agent``
-  Run ``debops.etc_services`` dependent role in ``debops-contrib.checkmk_agent`` context.
+  Run debops.etc_services_ dependent role in ``debops-contrib.checkmk_agent`` context.
 
 ``depend::ferm:checkmk_agent``
-  Run ``debops.ferm`` dependent role in ``debops-contrib.checkmk_agent`` context.
+  Run debops.ferm_ dependent role in ``debops-contrib.checkmk_agent`` context.
 
 ``role::checkmk_agent:plugins``
   Run tasks related to Check_MK agent plugin configuration.
