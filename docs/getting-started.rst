@@ -1,6 +1,17 @@
 Getting started
 ===============
 
+.. include:: includes/all.rst
+
+Example inventory
+-----------------
+
+You can install Check_MK agent on a host by adding it to the
+``[debops_services_checkmk_agent`` host group in your Ansible inventory::
+
+    [debops_services_checkmk_agent]
+    hostname
+
 Example playbook
 ----------------
 
@@ -9,6 +20,9 @@ Here's an example playbook that uses the ``debops-contrib.checkmk_agent`` role:
 .. literalinclude:: playbooks/checkmk_agent.yml
    :language: yaml
 
+This playbooks is shipped with this role under
+:file:`docs/playbooks/checkmk_agent.yml` from which you can symlink it to your
+playbook directory.
 
 Ansible tags
 ------------
