@@ -313,10 +313,10 @@ checkmk_agent__plugin_mysql_user: 'monitor'
 # .. envvar:: checkmk_agent__plugin_mysql_password [[[
 #
 # Database user password to use for monitoring.
-checkmk_agent__plugin_mysql_password: "{{ lookup('password', secret + '/mariadb/' +
-                                         ansible_local.mariadb.delegate_to +
-                                         '/credentials/' + checkmk_agent__plugin_mysql_user +
-                                         '/password length=48') }}"
+checkmk_agent__plugin_mysql_password: '{{
+  lookup("password", secret + "/mariadb/" + (ansible_local.mariadb.delegate_to
+  if (ansible_local.mariadb|d() and ansible_local.mariadb.delegate_to|d()) else "") +
+  "/credentials/" + checkmk_agent__plugin_mysql_user + "/password length=48") }}'
 
                                                                    # ]]]
 # .. envvar:: checkmk_agent__plugin_mysql_priv [[[
