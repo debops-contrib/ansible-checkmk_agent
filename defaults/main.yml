@@ -1,26 +1,28 @@
 ---
-# Default variables
-# =================
+# .. vim: foldmarker=[[[,]]]:foldmethod=marker
+
+# debops.checkmk_agent default variables [[[
+# ==========================================
 
 # .. contents:: Sections
 #    :local:
 #
-# .. Basic configuration options (((
-#
-# -------------------------------
-#   Basic configuration options
+# .. include:: includes/all.rst
+
+
+# Basic configuration options [[[
 # -------------------------------
 
-# .. envvar:: checkmk_agent__base_packages
+# .. envvar:: checkmk_agent__base_packages [[[
 #
 # List of base packages to install.
 checkmk_agent__base_packages:
   - 'check-mk-agent'
 
-
-# .. envvar:: checkmk_agent__apt_preferences__dependent_list
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__apt_preferences__dependent_list [[[
 #
-# Configuration for the ``debops.apt_preferences`` role.
+# Configuration for the debops.apt_preferences_ role.
 checkmk_agent__apt_preferences__dependent_list:
 
   - package: 'check-mk-agent'
@@ -28,24 +30,24 @@ checkmk_agent__apt_preferences__dependent_list:
     reason: 'Package not available in stable Debian Jessie'
     by_role: 'debops-contrib.checkmk_agent'
 
-
-# .. envvar:: checkmk_agent__type
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__type [[[
 #
-# List of Check_MK agent query protocols. Valid options are ``ssh`` and
-# ``xinetd``.
+# List of Check_MK agent query protocols. Valid options are :command:`ssh` and
+# :program:`xinetd`.
 checkmk_agent__type: [ 'ssh' ]
 
-
-# .. envvar:: checkmk_agent__allow
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__allow [[[
 #
 # List of IP addresses or network CIDR ranges allowed to connect to the
 # Check_MK agent through the firewall. If list are empty, anyone can connect.
 checkmk_agent__allow: []
 
-
-# .. envvar:: checkmk_agent__ferm_dependent_rules
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__ferm__dependent_rules [[[
 #
-# Configuration of the Linux firewall for the ``debops.ferm`` role.
+# Configuration of the Linux firewall for the debops.ferm_ role.
 checkmk_agent__ferm__dependent_rules:
 
   - type: 'accept'
@@ -53,16 +55,12 @@ checkmk_agent__ferm__dependent_rules:
     saddr: '{{ checkmk_agent__allow }}'
     accept_any: True
     weight: '20'
-
-# .. )))
-
-# .. Monitoring site integration (((
-#
-# -------------------------------
-#   Monitoring site integration
+                                                                   # ]]]
+                                                                   # ]]]
+# Monitoring site integration [[[
 # -------------------------------
 
-# .. envvar:: checkmk_agent__server
+# .. envvar:: checkmk_agent__server [[[
 #
 # Ansible inventory name of Check_MK server. By default it will be autodetected
 # via `debops_service_checkmk_server` host group configuration.
@@ -71,8 +69,8 @@ checkmk_agent__server: '{{ groups["debops_service_checkmk_server"][0]
                               (groups["debops_service_checkmk_server"] | length > 0)
                            else "" }}'
 
-
-# .. envvar:: checkmk_agent__site_name
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__site [[[
 #
 # Define Check_MK monitoring site name where the agent is registered. By default
 # it will be autodetected from the local facts stored under the `checkmk_server`
@@ -87,14 +85,14 @@ checkmk_agent__site: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_s
                              ("checkmk_server" in hostvars[checkmk_agent__server].ansible_local))
                          else "debops" }}'
 
-
-# .. envvar:: checkmk_agent__autojoin
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__autojoin [[[
 #
 # Automatically add agent host to the Check_MK monitoring site.
 checkmk_agent__autojoin: '{{ True if checkmk_agent__autojoin_url else False }}'
 
-
-# .. envvar:: checkmk_agent__autojoin_url
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__autojoin_url [[[
 #
 # Check_MK server WebAPI URL for agent registration. By default it will be
 # autodetected from the local facts stored under the `checkmk_server`
@@ -108,14 +106,14 @@ checkmk_agent__autojoin_url: '{{ hostvars[checkmk_agent__server].ansible_local.c
                                     (checkmk_agent__site in hostvars[checkmk_agent__server].ansible_local.checkmk_server))
                                 else "" }}'
 
-
-# .. envvar:: checkmk_agent__autojoin_user
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__autojoin_user [[[
 #
 # Account for agent registration via Check_MK WebAPI.
 checkmk_agent__autojoin_user: 'ansible'
 
-
-# .. envvar:: checkmk_agent__autojoin_secret
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__autojoin_secret [[[
 #
 # Authentication secret for WebAPI registration. If the Check_MK server is
 # managed manually the password path must be adjusted accordingly in the
@@ -123,84 +121,76 @@ checkmk_agent__autojoin_user: 'ansible'
 checkmk_agent__autojoin_secret: '{{ lookup("password", secret + "/credentials/" + hostvars[checkmk_agent__server].ansible_fqdn + "/checkmk_server/" + checkmk_agent__site + "/" + checkmk_agent__autojoin_user + "/secret")|d("")
                                     if checkmk_agent__server|d() and checkmk_agent__site|d() else "" }}'
 
-
-# .. envvar:: checkmk_agent__hostname
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__hostname [[[
 #
 # Hostname of the agent host used for registration.
 checkmk_agent__hostname: '{{ ansible_fqdn }}'
 
-
-# .. envvar:: checkmk_agent__host_attributes
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__host_attributes [[[
 #
 # Check_MK attributes and WATO tags used for managing the host. For more
-# details check :ref:`checkmk_agent__host_attributes`.
+# details check :ref:`checkmk_agent__ref_host_attributes`.
 checkmk_agent__host_attributes:
   tag_agent: '{{ "cmk-agent-ssh" if "ssh" in checkmk_agent__type|d(["ssh"]) else "cmk-agent" }}'
 
-
-# .. envvar:: checkmk_agent__discovery_mode
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__discovery_mode [[[
 #
 # Service discovery mode. Possible values are ``new`` (only find new services),
 # ``remove`` (remove exceeding services), ``fixall`` (remove exceeding and add
 # new services), ``refresh`` (clean all autochecks and discover from scratch)
 # and ``False`` (don't run service discovery).
 checkmk_agent__discovery_mode: 'new'
-
-# .. )))
-
-# .. Agent xinetd options (((
-#
-# ------------------------
-#   Agent xinetd options
+                                                                   # ]]]
+                                                                   # ]]]
+# Agent xinetd options [[[
 # ------------------------
 
-# .. envvar:: checkmk_agent__exec
+# .. envvar:: checkmk_agent__exec [[[
 #
 # Check_MK agent executable path. If you query the agent from multiple
-# servers, you may want to set this to ``/usr/bin/check_mk_caching_agent``.
+# servers, you may want to set this to :file:`/usr/bin/check_mk_caching_agent`.
 checkmk_agent__exec: '/usr/bin/check_mk_agent'
 
-
-# .. envvar:: checkmk_agent__port
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__port [[[
 #
 # Listen port for Check_MK agent.
 checkmk_agent__port: '6556'
 
-
-# .. envvar:: checkmk_agent__etc_services__dependent_list
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__etc_services__dependent_list [[[
 #
-# Configuration for the ``debops.etc_services`` role which registers port
+# Configuration for the debops.etc_services_ role which registers port
 # numbers for Check_MK agent.
 checkmk_agent__etc_services__dependent_list:
 
   - name: 'check-mk-agent'
     port: '{{ checkmk_agent__port }}'
     comment: 'Check_MK agent (via xinetd)'
-
-# .. )))
-
-# .. Agent SSH user options (((
-#
-# --------------------------
-#   Agent SSH user options
+                                                                   # ]]]
+                                                                   # ]]]
+# Agent SSH user options [[[
 # --------------------------
 
-# .. envvar:: checkmk_agent__ssh_user
+# .. envvar:: checkmk_agent__ssh_user [[[
 #
 # SSH user to query Check_MK agent.
 checkmk_agent__ssh_user: 'checkmk'
 
-
-# .. envvar:: checkmk_agent__ssh_group
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__ssh_group [[[
 #
 # Primary group of SSH user querying Check_MK agent.
 checkmk_agent__ssh_group: 'checkmk'
 
-
-# .. envvar:: checkmk_agent__ssh_allow_group
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__ssh_allow_group [[[
 #
 # Group membership required to access the system by SSH. If the ``AllowGroups``
-# :file:`sshd_config` option is not managed by ``debops.sshd`` this variable
+# :file:`sshd_config` option is not managed by debops.sshd_ this variable
 # might need to be defined accordingly in the Ansible inventory.
 checkmk_agent__ssh_allow_group: '{{ "sshusers"
                                     if ("sshd" in ansible_local) and
@@ -208,14 +198,14 @@ checkmk_agent__ssh_allow_group: '{{ "sshusers"
                                        ("sshusers" in ansible_local.sshd.allow_groups)
                                     else "" }}'
 
-
-# .. envvar:: checkmk_agent__user_home
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__user_home [[[
 #
 # Home directory of SSH user querying Check_MK agent.
 checkmk_agent__user_home: '/var/lib/check_mk_agent'
 
-
-# .. envvar:: checkmk_agent__user_key
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__user_key [[[
 #
 # Public key for user authentication when accessing the agent via SSH. By
 # default it will be autodetected from the local facts stored under the
@@ -229,10 +219,10 @@ checkmk_agent__user_key: '{{ hostvars[checkmk_agent__server].ansible_local.check
                                  (checkmk_agent__site in hostvars[checkmk_agent__server].ansible_local.checkmk_server))
                              else "" }}'
 
-
-# .. envvar:: checkmk_agent__authorized_keys__dependent_list
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__authorized_keys__dependent_list [[[
 #
-# Authorized key configuration for the ``debops.authorized_keys`` role.
+# Authorized key configuration for the debops.authorized_keys_ role.
 checkmk_agent__authorized_keys__dependent_list:
   - name: '{{ checkmk_agent__ssh_user }}'
     group: '{{ checkmk_agent__ssh_group }}'
@@ -240,47 +230,43 @@ checkmk_agent__authorized_keys__dependent_list:
       - '{{ checkmk_agent__user_key }}'
     options: '{{ authorized_keys__options_map.strict }}'
     key_options: 'command="{{ "/usr/bin/sudo " if not checkmk_agent__ssh_user == "root" else "" }}{{ checkmk_agent__exec }}"'
-
-# .. )))
-
-# .. Agent plugins options (((
-#
-# -------------------------
-#   Agent plugins options
+                                                                   # ]]]
+                                                                   # ]]]
+# Agent plugins options [[[
 # -------------------------
 
-# .. envvar:: checkmk_agent__plugins
+# .. envvar:: checkmk_agent__plugins [[[
 #
 # List of upstream Check_MK agent plugins to always enable.
 checkmk_agent__plugins: []
 
-
-# .. envvar:: checkmk_agent__group_plugins
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__group_plugins [[[
 #
 # "Host Group" list of upstream Check_MK agent plugins to always enable.
 checkmk_agent__group_plugins: []
 
-
-# .. envvar:: checkmk_agent__host_plugins
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__host_plugins [[[
 #
 # "Host" list of upstream Check_MK agent plugins to always enable.
 checkmk_agent__host_plugins: []
 
-
-# .. envvar:: checkmk_agent__plugin_autodetect
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__plugin_autodetect [[[
 #
 # Try to install Check_MK agent plugins for applications auto detected
 # via DebOps host group memberships.
 checkmk_agent__plugin_autodetect: True
 
-
-# .. envvar:: checkmk_agent__plugins_path
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__plugin_path [[[
 #
 # Destination path to install the Check_MK agent plugins.
 checkmk_agent__plugin_path: '/usr/lib/check_mk_agent/plugins'
 
-
-# .. envvar:: checkmk_agent__group_plugin_map
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__group_plugin_map [[[
 #
 # DebOps hostgroup to plugin mapping.
 checkmk_agent__group_plugin_map:
@@ -293,8 +279,8 @@ checkmk_agent__group_plugin_map:
   debops_postgresql: 'mk_postgres'
   debops_service_postgresql: 'mk_postgres'
 
-
-# .. envvar:: checkmk_agent__plugin_list
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__plugin_list [[[
 #
 # Combined list of all plugins which are going to be installed.
 # Plugins which can be detected by looking at the host group will be added
@@ -304,16 +290,12 @@ checkmk_agent__plugin_list: '{{ (
   (checkmk_agent__plugins|d([])) +
   (checkmk_agent__group_plugins|d([])) +
   (checkmk_agent__host_plugins|d([])) ) | unique }}'
-
-# .. )))
-
-# .. MySQL/MariaDB monitoring plugins options (((
-#
-# --------------------------------------------
-#   MySQL/MariaDB monitoring plugins options
+                                                                   # ]]]
+                                                                   # ]]]
+# MySQL/MariaDB monitoring plugins options [[[
 # --------------------------------------------
 
-# .. envvar:: checkmk_agent__plugin_mysql
+# .. envvar:: checkmk_agent__plugin_mysql [[[
 #
 # Indicate how to configure the ``mk_mysql`` monitoring plugin. If this is
 # set to ``automatic`` a database user which has read access to the database
@@ -321,31 +303,31 @@ checkmk_agent__plugin_list: '{{ (
 # See https://mathias-kettner.de/checkmk_mysql.html
 checkmk_agent__plugin_mysql: 'automatic'
 
-
-# .. envvar:: checkmk_agent__plugin_mysql_user
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__plugin_mysql_user [[[
 #
 # Database user account name to use for monitoring.
 checkmk_agent__plugin_mysql_user: 'monitor'
 
-
-# .. envvar:: checkmk_agent__plugin_mysql_password
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__plugin_mysql_password [[[
 #
 # Database user password to use for monitoring.
-checkmk_agent__plugin_mysql_password: "{{ lookup('password', secret + '/mariadb/' +
-                                         ansible_local.mariadb.delegate_to +
-                                         '/credentials/' + checkmk_agent__plugin_mysql_user +
-                                         '/password length=48') }}"
+checkmk_agent__plugin_mysql_password: '{{
+  lookup("password", secret + "/mariadb/" + (ansible_local.mariadb.delegate_to
+  if (ansible_local.mariadb|d() and ansible_local.mariadb.delegate_to|d()) else "") +
+  "/credentials/" + checkmk_agent__plugin_mysql_user + "/password length=48") }}'
 
-
-# .. envvar:: checkmk_agent__plugin_mysql_priv
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__plugin_mysql_priv [[[
 #
 # Privilages of the database user used for monitoring.
 checkmk_agent__plugin_mysql_priv: '*.*:SELECT,SHOW DATABASES'
 
-
-# .. envvar:: checkmk_agent__mariadb__users
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__mariadb__users [[[
 #
-# Database user definition for the ``debops.mariadb`` role.
+# Database user definition for the debops.mariadb_ role.
 checkmk_agent__mariadb__users:
 
   - user: '{{ checkmk_agent__plugin_mysql_user }}'
@@ -356,21 +338,17 @@ checkmk_agent__mariadb__users:
     append_privs: False
     owner: 'root'
     creds_path: '/etc/check_mk/mysql.cfg'
-
-# .. )))
-
-# .. nginx monitoring plugins options (((
-#
-# ------------------------------------
-#   nginx monitoring plugins options
+                                                                   # ]]]
+                                                                   # ]]]
+# nginx monitoring plugins options [[[
 # ------------------------------------
 
-# .. envvar:: checkmk_agent__plugin_nginx_servers
+# .. envvar:: checkmk_agent__plugin_nginx_servers [[[
 #
 # This option allows you to configure the servers which nginx_status_
 # plugin should monitoring. This might be required when the auto detection of
 # the plugin fails for example because the default server does not allow
-# ``/nginx_status``. This can happen because the plugin tires to connect with
+# :file:`/nginx_status`. This can happen because the plugin tires to connect with
 # the IP address set as Host.
 # This is currently set manually to ``localhost`` as workaround. See
 # https://github.com/debops-contrib/ansible-checkmk_agent/pull/3
@@ -393,31 +371,28 @@ checkmk_agent__plugin_nginx_servers:
   - proto: 'http'
     ipaddress: 'localhost'
     port: 80
-
-# .. )))
-
-# .. Agent plugins source options (((
-#
-# --------------------------------
-#   Agent plugins source options
+                                                                   # ]]]
+                                                                   # ]]]
+# Agent plugins source options [[[
 # --------------------------------
 
-# .. envvar:: checkmk_agent__git_repo
+# .. envvar:: checkmk_agent__git_repo [[[
 #
 # Check_MK agent source repository.
 checkmk_agent__git_repo: 'http://git.mathias-kettner.de/check_mk.git'
 
-
-# .. envvar:: checkmk_agent__git_dest
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__git_dest [[[
 #
 # Check_MK agent source directory on the host.
 checkmk_agent__git_dest: '{{ "/usr/local/src/check-mk/" + checkmk_agent__git_repo.split("://")[1] }}'
 
-
-# .. envvar:: checkmk_agent__git_version
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__git_version [[[
 #
 # Check_MK agent git branch to deploy. Set ``auto`` to set version to dpkg
 # package version.
 checkmk_agent__git_version: 'auto'
-
-# .. )))
+                                                                   # ]]]
+                                                                   # ]]]
+                                                                   # ]]]
