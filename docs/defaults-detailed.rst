@@ -9,7 +9,7 @@ find documentation and examples for them.
    :local:
    :depth: 1
 
-.. _checkmk_agent__host_attributes:
+.. _checkmk_agent__ref_host_attributes:
 
 checkmk_agent__host_attributes
 ------------------------------

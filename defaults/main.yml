@@ -131,7 +131,7 @@ checkmk_agent__hostname: '{{ ansible_fqdn }}'
 # .. envvar:: checkmk_agent__host_attributes [[[
 #
 # Check_MK attributes and WATO tags used for managing the host. For more
-# details check :ref:`checkmk_agent__host_attributes`.
+# details check :ref:`checkmk_agent__ref_host_attributes`.
 checkmk_agent__host_attributes:
   tag_agent: '{{ "cmk-agent-ssh" if "ssh" in checkmk_agent__type|d(["ssh"]) else "cmk-agent" }}'
 
