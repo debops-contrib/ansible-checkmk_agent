@@ -11,8 +11,14 @@ and `human-readable changelog <http://keepachangelog.com/en/0.3.0/>`__.
 The current role maintainer_ is ganto_.
 
 
-debps-contrib.checkmk_agent - unreleased
-----------------------------------------
+`debops-contrib.checkmk_agent master`_ - unreleased
+---------------------------------------------------
+
+.. _debops-contrib.checkmk_agent master: https://github.com/debops-contrib/ansible-checkmk_agent/compare/v0.1.0...master
+
+
+debops-contrib.checkmk_agent v0.1.0 - 2016-11-07
+------------------------------------------------
 
 Added
 ~~~~~
