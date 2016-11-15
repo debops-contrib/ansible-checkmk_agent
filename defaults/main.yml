@@ -321,7 +321,7 @@ checkmk_agent__plugin_mysql_password: '{{
                                                                    # ]]]
 # .. envvar:: checkmk_agent__plugin_mysql_priv [[[
 #
-# Privilages of the database user used for monitoring.
+# Privileges of the database user used for monitoring.
 checkmk_agent__plugin_mysql_priv: '*.*:SELECT,SHOW DATABASES'
 
                                                                    # ]]]
