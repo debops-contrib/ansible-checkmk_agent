@@ -16,6 +16,18 @@ The current role maintainer_ is ganto_.
 
 .. _debops-contrib.checkmk_agent master: https://github.com/debops-contrib/ansible-checkmk_agent/compare/v0.1.0...master
 
+Security
+~~~~~~~~
+
+- Change git clone URL used to install additional plugins from ``http://`` to
+  https://git.mathias-kettner.de/check_mk.git to mitigate potential MITM
+  attacks against the unauthenticated ``http://`` connection.
+  That, together with using the latest git master branch by default could
+  result in malicious code being executed on systems where the agent is
+  installed.
+  It needs to be checked if already configured hosts are updated to
+  ``https://`` by subsequent role runs. [ypid_]
+
 
 debops-contrib.checkmk_agent v0.1.0 - 2016-11-07
 ------------------------------------------------

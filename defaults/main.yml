@@ -379,7 +379,7 @@ checkmk_agent__plugin_nginx_servers:
 # .. envvar:: checkmk_agent__git_repo [[[
 #
 # Check_MK agent source repository.
-checkmk_agent__git_repo: 'http://git.mathias-kettner.de/check_mk.git'
+checkmk_agent__git_repo: 'https://git.mathias-kettner.de/check_mk.git'
 
                                                                    # ]]]
 # .. envvar:: checkmk_agent__git_dest [[[
