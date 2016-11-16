@@ -1,9 +1,9 @@
 ---
 
 ansigenome_info:
+  galaxy_url: 'https://galaxy.ansible.com/debops-contrib/checkmk_agent'
   github_url: 'https://github.com/debops-contrib/ansible-checkmk_agent'
   git_branch: 'master'
-  galaxy_id: ''
 
   travis: True
 
@@ -19,9 +19,7 @@ ansigenome_info:
       github: 'ganto'
 
     - name:  'Robin Schneider'
-      url: 'http://ypid.de/'
       email: 'ypid@riseup.net'
-      twitter: 'ypid'
       github: 'ypid'
 
   synopsis: |
