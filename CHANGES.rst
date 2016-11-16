@@ -22,6 +22,13 @@ Added
 - ``role::checkmk_agent:plugins:get`` Ansible tag to allow to skip git
   cloning/pulling related tasks (needs to be already present to work). [ypid_]
 
+Fixed
+~~~~~
+
+- Fix ``xinetd`` support which is filtered by ``tcpwrappers`` and which is
+  configured by debops.tcpwrappers_ to deny all connections by default
+  (whitelisting). [ypid_]
+
 Security
 ~~~~~~~~
 
