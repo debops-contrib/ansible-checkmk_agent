@@ -1,8 +1,8 @@
 ---
 # .. vim: foldmarker=[[[,]]]:foldmethod=marker
 
-# debops.checkmk_agent default variables [[[
-# ==========================================
+# debops-contrib.checkmk_agent default variables [[[
+# ==================================================
 
 # .. contents:: Sections
 #    :local:
@@ -32,7 +32,6 @@ checkmk_agent__type: [ 'ssh' ]
 # List of IP addresses or network CIDR ranges allowed to connect to the
 # Check_MK agent through the firewall. If list are empty, anyone can connect.
 checkmk_agent__allow: []
-
                                                                    # ]]]
                                                                    # ]]]
 # Monitoring site integration [[[
@@ -399,6 +398,7 @@ checkmk_agent__ferm__dependent_rules:
     weight: '20'
     by_role: 'debops-contrib.checkmk_agent'
     rule_state: '{{ "xinetd" in checkmk_agent__type | ternary("present", "absent") }}'
+
                                                                    # ]]]
 # .. envvar:: checkmk_agent__tcpwrappers__dependent_allow [[[
 #

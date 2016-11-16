@@ -25,13 +25,13 @@ Added
 Changed
 ~~~~~~~
 
-- Run the debops.ferm_ role also when ``xinetd`` is not listed in
-  ``checkmk_agent__type`` to allow to migrate between different types. [ypid_]
+- Run the debops.ferm_ role also when :program:`xinetd` is not listed in
+  :envvar:`checkmk_agent__type` to allow to migrate between different types. [ypid_]
 
 Fixed
 ~~~~~
 
-- Fix ``xinetd`` support which is filtered by ``tcpwrappers`` and which is
+- Fix :program:`xinetd` support which is filtered by ``tcpwrappers`` and which is
   configured by debops.tcpwrappers_ to deny all connections by default
   (whitelisting). [ypid_]
 

@@ -20,7 +20,7 @@ Here's an example playbook that uses the ``debops-contrib.checkmk_agent`` role:
 .. literalinclude:: playbooks/checkmk_agent.yml
    :language: yaml
 
-This playbooks is shipped with this role under
+The playbooks is shipped with this role under
 :file:`docs/playbooks/checkmk_agent.yml` from which you can symlink it to your
 playbook directory.
 
