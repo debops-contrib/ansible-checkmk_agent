@@ -44,8 +44,10 @@ Security
   That, together with using the latest git master branch by default could
   result in malicious code being executed on systems where the agent is
   installed.
-  It needs to be checked if already configured hosts are updated to
-  ``https://`` by subsequent role runs. [ypid_]
+  :command:`git pull` will use the new URL from now on.
+  Note that "GnuTLS recv error[s]" have been observed which might have to be
+  fixed elsewhere. "GnuTLS recv error (-9): A TLS packet with unexpected length
+  was received" [ypid_]
 
 
 debops-contrib.checkmk_agent v0.1.0 - 2016-11-07
