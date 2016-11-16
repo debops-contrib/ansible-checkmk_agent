@@ -398,6 +398,7 @@ checkmk_agent__ferm__dependent_rules:
     accept_any: True
     weight: '20'
     by_role: 'debops-contrib.checkmk_agent'
+    rule_state: '{{ "xinetd" in checkmk_agent__type | ternary("present", "absent") }}'
                                                                    # ]]]
 # .. envvar:: checkmk_agent__tcpwrappers__dependent_allow [[[
 #

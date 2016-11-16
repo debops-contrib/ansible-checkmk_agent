@@ -27,7 +27,6 @@
               'depend-of::checkmk_agent', 'type::dependency' ]
       ferm__dependent_rules:
         - '{{ checkmk_agent__ferm__dependent_rules }}'
-      when: ('xinetd' in checkmk_agent__type|d(['ssh']))
 
     - role: debops.tcpwrappers
       tags: [ 'role::tcpwrappers' ]

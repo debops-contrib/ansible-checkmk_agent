@@ -22,6 +22,12 @@ Added
 - ``role::checkmk_agent:plugins:get`` Ansible tag to allow to skip git
   cloning/pulling related tasks (needs to be already present to work). [ypid_]
 
+Changed
+~~~~~~~
+
+- Run the debops.ferm_ role also when ``xinetd`` is not listed in
+  ``checkmk_agent__type`` to allow to migrate between different types. [ypid_]
+
 Fixed
 ~~~~~
 
