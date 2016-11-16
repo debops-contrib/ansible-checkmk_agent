@@ -56,3 +56,6 @@ Available role tags:
 
 ``role::checkmk_agent:plugins``
   Run tasks related to Check_MK agent plugin configuration.
+
+``role::checkmk_agent:plugins:get``
+  Run tasks related to Check_MK agent plugin retrieval.

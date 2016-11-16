@@ -16,6 +16,12 @@ The current role maintainer_ is ganto_.
 
 .. _debops-contrib.checkmk_agent master: https://github.com/debops-contrib/ansible-checkmk_agent/compare/v0.1.0...master
 
+Added
+~~~~~
+
+- ``role::checkmk_agent:plugins:get`` Ansible tag to allow to skip git
+  cloning/pulling related tasks (needs to be already present to work). [ypid_]
+
 Security
 ~~~~~~~~
 
