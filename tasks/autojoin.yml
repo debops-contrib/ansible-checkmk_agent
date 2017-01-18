@@ -64,9 +64,9 @@
   uri:
     url: '{{ checkmk_agent__autojoin_url }}?action=activate_changes&_username={{ checkmk_agent__autojoin_user }}&_secret={{ checkmk_agent__autojoin_secret }}&output_format=json'
     return_content: yes
-  when: '{{ checkmk_agent__register_add_host.changed|d(False) or
-            checkmk_agent__register_update_host.changed|d(False) or
-            checkmk_agent__register_discover_services.changed|d(False) }}'
+  when: '{{ (checkmk_agent__register_add_host | changed) or
+            (checkmk_agent__register_update_host | changed) or
+            (checkmk_agent__register_discover_services | changed) }}'
   register: checkmk_agent__register_activate
   changed_when: ("json" in checkmk_agent__register_activate) and
                 (checkmk_agent__register_activate.json.result_code == 0)
