@@ -78,7 +78,7 @@ checkmk_agent__server: '{{ groups["debops_service_checkmk_server"][0]
 # undefined or the Ansible local facts for `checkmk_agent__server` can't be
 # found. If the Check_MK server is managed manually this variable must be
 # defined accordingly in the Ansible inventory.
-checkmk_agent__site: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_server[0]|d("debops")
+checkmk_agent__site: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_server.keys()[0]|d("debops")
                          if (checkmk_agent__server|d() and
                              (checkmk_agent__server in hostvars) and
                              ("ansible_local" in hostvars[checkmk_agent__server]) and
