@@ -19,8 +19,8 @@ The current role maintainer_ is ganto_.
 Added
 ~~~~~
 
-- ``role::checkmk_agent:plugins:get`` Ansible tag to allow to skip git
-  cloning/pulling related tasks (needs to be already present to work). [ypid_]
+- ``role::checkmk_agent:plugins:get`` Ansible tag for cloning/pulling related
+  tasks. [ypid_]
 
 Changed
 ~~~~~~~
