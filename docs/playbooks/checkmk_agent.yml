@@ -4,6 +4,10 @@
   hosts:  [ 'debops_service_checkmk_agent', 'debops_checkmk_agent' ]
   become: True
 
+  environment: '{{ inventory__environment | d({})
+                   | combine(inventory__group_environment | d({}))
+                   | combine(inventory__host_environment  | d({})) }}'
+
   roles:
     - role: debops.apt_preferences
       tags: [ 'depend::apt_preferences', 'depend::apt_preferences:checkmk_agent',
@@ -23,7 +27,11 @@
               'depend-of::checkmk_agent', 'type::dependency' ]
       ferm__dependent_rules:
         - '{{ checkmk_agent__ferm__dependent_rules }}'
-      when: ('xinetd' in checkmk_agent__type|d(['ssh']))
+
+    - role: debops.tcpwrappers
+      tags: [ 'role::tcpwrappers' ]
+      tcpwrappers__dependent_allow:
+        - '{{ checkmk_agent__tcpwrappers__dependent_allow }}'
 
     - role: debops.authorized_keys
       tags: [ 'depend::authorized_keys', 'depend::authorized_keys:checkmk_agent',

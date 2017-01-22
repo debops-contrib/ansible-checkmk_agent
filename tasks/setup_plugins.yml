@@ -5,6 +5,7 @@
   register: checkmk_agent__register_package_dpkg_version
   changed_when: False
   when: checkmk_agent__git_version == 'auto'
+  tags: [ 'role::checkmk_agent:plugins:get' ]
 
 - name: Clone Check_MK agent source
   git:
@@ -12,6 +13,7 @@
     dest: '{{ checkmk_agent__git_dest }}'
     version: '{{ "v" + checkmk_agent__register_package_dpkg_version.stdout.split("-")[0] if checkmk_agent__git_version == "auto" else checkmk_agent__git_version }}'
     update: True
+  tags: [ 'role::checkmk_agent:plugins:get' ]
 
 - name: Install Check_MK plugins
   synchronize:
