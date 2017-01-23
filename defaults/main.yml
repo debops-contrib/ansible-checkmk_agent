@@ -37,14 +37,20 @@ checkmk_agent__allow: []
 # Monitoring site integration [[[
 # -------------------------------
 
+# .. envvar:: checkmk_agent__server_inventory_group [[[
+#
+# Ansible inventory host group used to lookup the Check_MK server.
+checkmk_agent__server_inventory_group: 'debops_service_checkmk_server'
+
+                                                                   # ]]]
 # .. envvar:: checkmk_agent__server [[[
 #
 # Ansible inventory name of Check_MK server. By default it will be autodetected
-# via `debops_service_checkmk_server` host group configuration. If the Check_MK
-# server is not managed by Ansible, set this to `False`.
-checkmk_agent__server: '{{ groups["debops_service_checkmk_server"][0]
-                           if ("debops_service_checkmk_server" in groups) and
-                              (groups["debops_service_checkmk_server"] | length > 0)
+# via :envvar:`checkmk_agent__server_inventory_group` host group configuration.
+# If the Check_MK server is not managed by Ansible, set this to `False`.
+checkmk_agent__server: '{{ groups[checkmk_agent__server_inventory_group][0]
+                           if (checkmk_agent__server_inventory_group in groups) and
+                              (groups[checkmk_agent__server_inventory_group] | length > 0)
                            else "" }}'
 
                                                                    # ]]]
