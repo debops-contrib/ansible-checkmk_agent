@@ -35,6 +35,9 @@ Fixed
   configured by debops.tcpwrappers_ to deny all connections by default
   (whitelisting). [ypid_]
 
+- Fix lookup of non-default monitoring site specified as Ansible local fact by
+  the debops-contrib.checkmk_server_ role. [ganto_]
+
 Security
 ~~~~~~~~
 
