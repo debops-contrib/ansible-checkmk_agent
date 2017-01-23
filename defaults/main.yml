@@ -40,7 +40,8 @@ checkmk_agent__allow: []
 # .. envvar:: checkmk_agent__server [[[
 #
 # Ansible inventory name of Check_MK server. By default it will be autodetected
-# via `debops_service_checkmk_server` host group configuration.
+# via `debops_service_checkmk_server` host group configuration. If the Check_MK
+# server is not managed by Ansible, set this to `False`.
 checkmk_agent__server: '{{ groups["debops_service_checkmk_server"][0]
                            if ("debops_service_checkmk_server" in groups) and
                               (groups["debops_service_checkmk_server"] | length > 0)
@@ -65,7 +66,10 @@ checkmk_agent__site: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_s
                                                                    # ]]]
 # .. envvar:: checkmk_agent__autojoin [[[
 #
-# Automatically add agent host to the Check_MK monitoring site.
+# Automatically add agent host to the Check_MK monitoring site. If the Check_MK
+# server is not managed by Ansible and you want automated agent registration to
+# work, manually define at least :envvar:`checkmk_agent__autojoin_url`,
+# :envvar:`checkmk_agent__autojoin_secret` and :envvar:`checkmk_agent__user_key`.
 checkmk_agent__autojoin: '{{ True if checkmk_agent__autojoin_url else False }}'
 
                                                                    # ]]]
