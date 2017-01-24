@@ -16,6 +16,28 @@ The current role maintainer_ is ganto_.
 
 .. _debops-contrib.checkmk_agent master: https://github.com/debops-contrib/ansible-checkmk_agent/compare/v0.1.1...master
 
+Added
+~~~~~
+
+- New inventory variable :envvar:`checkmk_agent__server_inventory_group` which
+  can be used to define custom Ansible host group name for Check_MK server
+  lookup. [ganto_]
+
+Changed
+~~~~~~~
+
+- Raise HTTP timeout for discovery and activation WebAPI calls to 120s to avoid
+  timeout issues on large hosts with many service checks. [ganto_]
+
+- If possible run WebAPI invocation for automated agent registration and host
+  attribute updates on the Check_MK server to avoid possible firewall issues.
+  [ganto_]
+
+Fixed
+~~~~~
+
+- Correctly use Ansible `changed` task filter. [ganto_]
+
 
 `debops-contrib.checkmk_agent v0.1.1` - 2017-01-23
 --------------------------------------------------
