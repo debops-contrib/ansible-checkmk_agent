@@ -36,7 +36,7 @@ Changed
 Fixed
 ~~~~~
 
-- Correctly use Ansible `changed` task filter. [ganto_]
+- Correctly use Ansible `changed` and `skipped` task filters. [ganto_]
 
 
 `debops-contrib.checkmk_agent v0.1.1` - 2017-01-23
