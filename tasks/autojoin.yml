@@ -13,6 +13,7 @@
     method: 'POST'
     body: 'request={ "hostname": "{{ checkmk_agent__hostname }}" }'
     return_content: yes
+  delegate_to: '{{ checkmk_agent__server if checkmk_agent__server else omit }}'
   register: checkmk_agent__register_get_host
   always_run: True
   changed_when: False
@@ -24,6 +25,7 @@
     method: 'POST'
     body: 'request={ "hostname": "{{ checkmk_agent__hostname }}", "folder": "/", "attributes": {{ checkmk_agent__fact_host_attributes|to_json }} }'
     return_content: yes
+  delegate_to: '{{ checkmk_agent__server if checkmk_agent__server else omit }}'
   when: '{{ checkmk_agent__register_get_host.json.result == "No such host" }}'
   register: checkmk_agent__register_add_host
   changed_when: ("json" in checkmk_agent__register_add_host) and
@@ -37,8 +39,9 @@
     method: 'POST'
     body: 'request={ "hostname": "{{ checkmk_agent__hostname }}", "attributes": {{ checkmk_agent__fact_host_attributes|to_json }} }'
     return_content: yes
-  when: '{{ checkmk_agent__register_add_host.skipped|d(False) and
-           (not checkmk_agent__host_attributes|to_nice_json == checkmk_agent__register_get_host.json.result.attributes|d({})|to_nice_json) }}'
+  delegate_to: '{{ checkmk_agent__server if checkmk_agent__server else omit }}'
+  when: '{{ (checkmk_agent__register_add_host | skipped) and
+            (not checkmk_agent__host_attributes|to_nice_json == checkmk_agent__register_get_host.json.result.attributes|d({})|to_nice_json) }}'
   register: checkmk_agent__register_update_host
   changed_when: ("json" in checkmk_agent__register_update_host) and
                 (checkmk_agent__register_update_host.json.result_code == 0)
@@ -51,6 +54,8 @@
     method: 'POST'
     body: 'request={ "hostname": "{{ checkmk_agent__hostname }}" }'
     return_content: yes
+    timeout: 120
+  delegate_to: '{{ checkmk_agent__server if checkmk_agent__server else omit }}'
   when: '{{ checkmk_agent__discovery_mode|d() in [ "new", "remove", "fixall", "refresh" ] }}'
   register: checkmk_agent__register_discover_services
   changed_when: ("json" in checkmk_agent__register_discover_services) and
@@ -64,9 +69,11 @@
   uri:
     url: '{{ checkmk_agent__autojoin_url }}?action=activate_changes&_username={{ checkmk_agent__autojoin_user }}&_secret={{ checkmk_agent__autojoin_secret }}&output_format=json'
     return_content: yes
-  when: '{{ checkmk_agent__register_add_host.changed|d(False) or
-            checkmk_agent__register_update_host.changed|d(False) or
-            checkmk_agent__register_discover_services.changed|d(False) }}'
+    timeout: 120
+  delegate_to: '{{ checkmk_agent__server if checkmk_agent__server else omit }}'
+  when: '{{ (checkmk_agent__register_add_host | changed) or
+            (checkmk_agent__register_update_host | changed) or
+            (checkmk_agent__register_discover_services | changed) }}'
   register: checkmk_agent__register_activate
   changed_when: ("json" in checkmk_agent__register_activate) and
                 (checkmk_agent__register_activate.json.result_code == 0)
