@@ -9,7 +9,7 @@ the client component of the Nagios-based Check_MK monitoring suite.
 Installation
 ~~~~~~~~~~~~
 
-This role requires at least Ansible ``v1.9``. To install it, run::
+This role requires at least Ansible ``v2.1.5``. To install it, run::
 
     ansible-galaxy install debops-contrib.checkmk_agent
 

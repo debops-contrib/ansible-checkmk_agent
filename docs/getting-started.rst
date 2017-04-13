@@ -38,21 +38,9 @@ Available role tags:
   Main role tag, should be used in the playbook to execute all of the role
   tasks as well as role dependencies.
 
-``type::dependency``
-  This tag specifies which tasks are defined in role dependencies. You can use
-  this to omit them using ``--skip-tags`` parameter.
-
-``depend-of::checkmk_agent``
-  Execute all ``debops-contrib.checkmk_agent`` role dependencies in its context.
-
-``depend::apt_preferences:checkmk_agent``
-  Run debops.apt_preferences_ dependent role in ``debops-contrib.checkmk_agent`` context.
-
-``depend::etc_services:checkmk_agent``
-  Run debops.etc_services_ dependent role in ``debops-contrib.checkmk_agent`` context.
-
-``depend::ferm:checkmk_agent``
-  Run debops.ferm_ dependent role in ``debops-contrib.checkmk_agent`` context.
+``role::checkmk_agent:pkgs``
+  Tasks related to system package management like installing or
+  removing packages.
 
 ``role::checkmk_agent:plugins``
   Run tasks related to Check_MK agent plugin configuration.

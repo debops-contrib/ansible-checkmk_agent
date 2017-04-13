@@ -23,6 +23,8 @@ Added
   can be used to define custom Ansible host group name for Check_MK server
   lookup. [ganto_]
 
+- Support :envvar:`checkmk_agent__deploy_state`. [ypid_]
+
 Changed
 ~~~~~~~
 
@@ -33,13 +35,29 @@ Changed
   attribute updates on the Check_MK server to avoid possible firewall issues.
   [ganto_]
 
-- Rename ``checkmk_agent__hostname`` to ``checkmk_agent__fqdn``. You might need
+- Rename ``checkmk_agent__hostname`` to :envvar:`checkmk_agent__fqdn`. You might need
   to update your inventory. [ypid_]
+
+- Rename ``checkmk_agent__group_plugin_map`` to :envvar:`checkmk_agent__facts_plugin_map`. You might need
+  to update your inventory. [ypid_]
+
+- Increase Ansible min version to ``2.1.5``. Everything below is deprecated
+  anyway and has vulnerabilities so you don’t want to use that anymore. [ypid_]
+
+Removed
+~~~~~~~
+
+- Remove the ``debops_checkmk_agent`` Ansible inventory group. Make sure you
+  hosts are in ``debops_service_checkmk_agent``. [ypid_]
 
 Fixed
 ~~~~~
 
 - Correctly use Ansible `changed` and `skipped` task filters. [ganto_]
+
+- Let xinetd bind on ``AF_INET6`` to ensure IPv6 reachability of the agent. [ypid_]
+
+- Fix TCP Wrappers support for xinetd. [ypid_]
 
 
 `debops-contrib.checkmk_agent v0.1.1`_ - 2017-01-23
