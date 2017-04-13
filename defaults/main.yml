@@ -109,10 +109,13 @@ checkmk_agent__autojoin_secret: '{{ lookup("password", secret + "/credentials/" 
                                     if checkmk_agent__server|d() and checkmk_agent__site|d() else "" }}'
 
                                                                    # ]]]
-# .. envvar:: checkmk_agent__hostname [[[
+# .. envvar:: checkmk_agent__fqdn [[[
 #
-# Hostname of the agent host used for registration.
-checkmk_agent__hostname: '{{ ansible_fqdn }}'
+# FQDN of the agent host used for registration.
+checkmk_agent__fqdn: '{{ ansible_local.core.fqdn
+                         if (ansible_local|d() and ansible_local.core|d() and
+                             ansible_local.core.fqdn|d())
+                         else ansible_fqdn }}'
 
                                                                    # ]]]
 # .. envvar:: checkmk_agent__host_attributes [[[

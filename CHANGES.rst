@@ -33,14 +33,17 @@ Changed
   attribute updates on the Check_MK server to avoid possible firewall issues.
   [ganto_]
 
+- Rename ``checkmk_agent__hostname`` to ``checkmk_agent__fqdn``. You might need
+  to update your inventory. [ypid_]
+
 Fixed
 ~~~~~
 
 - Correctly use Ansible `changed` and `skipped` task filters. [ganto_]
 
 
-`debops-contrib.checkmk_agent v0.1.1` - 2017-01-23
---------------------------------------------------
+`debops-contrib.checkmk_agent v0.1.1`_ - 2017-01-23
+---------------------------------------------------
 
 .. _debops-contrib.checkmk_agent v0.1.1: https://github.com/debops-contrib/ansible-checkmk_agent/compare/v0.1.0...v0.1.1
 

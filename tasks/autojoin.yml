@@ -11,7 +11,7 @@
   uri:
     url: '{{ checkmk_agent__autojoin_url }}?action=get_host&_username={{ checkmk_agent__autojoin_user }}&_secret={{ checkmk_agent__autojoin_secret }}&output_format=json'
     method: 'POST'
-    body: 'request={ "hostname": "{{ checkmk_agent__hostname }}" }'
+    body: 'request={ "hostname": "{{ checkmk_agent__fqdn }}" }'
     return_content: yes
   delegate_to: '{{ checkmk_agent__server if checkmk_agent__server else omit }}'
   register: checkmk_agent__register_get_host
@@ -23,7 +23,7 @@
   uri:
     url: '{{ checkmk_agent__autojoin_url }}?action=add_host&_do_confirm=yes&_username={{ checkmk_agent__autojoin_user }}&_secret={{ checkmk_agent__autojoin_secret }}&output_format=json'
     method: 'POST'
-    body: 'request={ "hostname": "{{ checkmk_agent__hostname }}", "folder": "/", "attributes": {{ checkmk_agent__fact_host_attributes|to_json }} }'
+    body: 'request={ "hostname": "{{ checkmk_agent__fqdn }}", "folder": "/", "attributes": {{ checkmk_agent__fact_host_attributes|to_json }} }'
     return_content: yes
   delegate_to: '{{ checkmk_agent__server if checkmk_agent__server else omit }}'
   when: '{{ checkmk_agent__register_get_host.json.result == "No such host" }}'
@@ -37,7 +37,7 @@
   uri:
     url: '{{ checkmk_agent__autojoin_url }}?action=edit_host&_username={{ checkmk_agent__autojoin_user }}&_secret={{ checkmk_agent__autojoin_secret }}&output_format=json'
     method: 'POST'
-    body: 'request={ "hostname": "{{ checkmk_agent__hostname }}", "attributes": {{ checkmk_agent__fact_host_attributes|to_json }} }'
+    body: 'request={ "hostname": "{{ checkmk_agent__fqdn }}", "attributes": {{ checkmk_agent__fact_host_attributes|to_json }} }'
     return_content: yes
   delegate_to: '{{ checkmk_agent__server if checkmk_agent__server else omit }}'
   when: '{{ (checkmk_agent__register_add_host | skipped) and
@@ -52,7 +52,7 @@
   uri:
     url: '{{ checkmk_agent__autojoin_url }}?action=discover_services&mode={{ checkmk_agent__discovery_mode }}&_username={{ checkmk_agent__autojoin_user }}&_secret={{ checkmk_agent__autojoin_secret }}&output_format=json'
     method: 'POST'
-    body: 'request={ "hostname": "{{ checkmk_agent__hostname }}" }'
+    body: 'request={ "hostname": "{{ checkmk_agent__fqdn }}" }'
     return_content: yes
     timeout: 120
   delegate_to: '{{ checkmk_agent__server if checkmk_agent__server else omit }}'
