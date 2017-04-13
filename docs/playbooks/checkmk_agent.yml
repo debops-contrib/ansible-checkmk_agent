@@ -43,8 +43,8 @@
     - role: debops.mariadb
       tags: [ 'depend::mariadb', 'depend::mariadb:checkmk_agent',
               'depend-of::checkmk_agent', 'type::dependency' ]
-      mariadb__users:
-        - '{{ checkmk_agent__mariadb__users }}'
+      mariadb__dependent_users:
+        - '{{ checkmk_agent__mariadb__dependent_users }}'
       when: (("mk_mysql" in checkmk_agent__plugin_list and
               checkmk_agent__plugin_mysql|d("automatic") == "automatic") or
              ((checkmk_agent__plugin_autodetect|d(True) | bool) and

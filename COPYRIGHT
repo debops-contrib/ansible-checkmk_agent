@@ -1,8 +1,8 @@
 debops-contrib.checkmk_agent - Setup Check_MK monitoring agent
 
-Copyright (C) 2015-2016 Reto Gantenbein <reto.gantenbein@linuxmonk.ch>
-Copyright (C) 2015-2016 Robin Schneider <ypid@riseup.net>
-Copyright (C) 2016 DebOps https://debops.org/
+Copyright (C) 2015-2017 Reto Gantenbein <reto.gantenbein@linuxmonk.ch>
+Copyright (C) 2015-2017 Robin Schneider <ypid@riseup.net>
+Copyright (C) 2016-2017 DebOps https://debops.org/
 
 This Ansible role is part of DebOps.
 

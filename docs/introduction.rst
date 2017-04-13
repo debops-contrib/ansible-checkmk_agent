@@ -3,9 +3,8 @@ Introduction
 
 .. include:: includes/all.rst
 
-This Ansible_ role allows you to install and manage the `Check_MK
-<https://mathias-kettner.com/check_mk.html>`_ agent. It is the client
-component of the Nagios-based Check_MK monitoring suite.
+This Ansible_ role allows you to install and manage the Check_MK_ agent. It is
+the client component of the Nagios-based Check_MK monitoring suite.
 
 Installation
 ~~~~~~~~~~~~

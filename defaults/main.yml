@@ -312,10 +312,10 @@ checkmk_agent__plugin_mysql_password: '{{
 checkmk_agent__plugin_mysql_priv: '*.*:SELECT,SHOW DATABASES'
 
                                                                    # ]]]
-# .. envvar:: checkmk_agent__mariadb__users [[[
+# .. envvar:: checkmk_agent__mariadb__dependent_users [[[
 #
 # Database user definition for the debops.mariadb_ role.
-checkmk_agent__mariadb__users:
+checkmk_agent__mariadb__dependent_users:
 
   - user: '{{ checkmk_agent__plugin_mysql_user }}'
     password: '{{ checkmk_agent__plugin_mysql_password }}'
