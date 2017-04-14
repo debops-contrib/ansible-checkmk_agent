@@ -428,12 +428,17 @@ checkmk_agent__ferm__dependent_rules:
 # Configuration for the debops.tcpwrappers_ Ansible role.
 checkmk_agent__tcpwrappers__dependent_allow:
 
+  - daemon: 'inetd'
+    comment: 'Ensure legacy tcpwrappers ACL is absent'
+    by_role: 'debops-contrib.checkmk_agent'
+    state: 'absent'
+
   - daemon:
+      - 'check_mk_agent'
+      - 'check_mk_caching_agent'
       ## Not required:
       # - 'inetd'
       # - 'xinetd'
-      - 'check_mk_agent'
-      - 'check_mk_caching_agent'
     client: '{{ checkmk_agent__allow }}'
     accept_any: False
     weight: '50'
