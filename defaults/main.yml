@@ -378,12 +378,20 @@ checkmk_agent__git_dest: '{{ "/usr/local/src/check-mk/" + checkmk_agent__git_rep
 # This is done because Check_MK does not cryptographically
 # signed their work and this role wants to comply with the
 # `DebOps Software Source Policy <https://docs.debops.org/en/latest/debops-policy/docs/software-source-policy.html#software-installed-from-git-repositories>`__.
-# Note that if no mapping for the used release is defined here, the role will
-# fallback to using the unsigned git tag directly!
 checkmk_agent__git_version_map:
   'v1.2.6p12': 'cf2aaf2f7d60ca0445a239915bfc41aa6f3ee739'
   'v1.2.6p20': '988e5d4e8fbcf9ac73365ffcfb2d12080c4ee052'
   'v1.2.8p16': 'e5e216abca9a946a29eab94334be30cc146e7fec'
+
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__git_version_unsigned_fallback [[[
+#
+# Defines the behavior when a requested version is not specified in
+# :envvar:`checkmk_agent__git_version_map`.
+# When this is set to ``True`` and no mapping for the used release is found,
+# the role will fallback to using the unsigned git tag directly!
+checkmk_agent__git_version_unsigned_fallback: False
+
                                                                    # ]]]
 # .. envvar:: checkmk_agent__git_version [[[
 #
