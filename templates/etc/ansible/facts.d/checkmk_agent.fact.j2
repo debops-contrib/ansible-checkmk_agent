@@ -1,5 +1,7 @@
+{% import 'templates/import/debops__tpl_macros.j2' as debops__tpl_macros with context %}
 {% set checkmk_agent__tpl_plugins = checkmk_agent__plugins + checkmk_agent__group_plugins + checkmk_agent__host_plugins %}
 {% if checkmk_agent__plugin_autodetect|d() | bool %}
+{%   set _ = checkmk_agent__tpl_plugins.append(checkmk_agent__autodetected_plugins) %}
 {%   for fact_name in ansible_local.keys() | intersect(checkmk_agent__facts_plugin_map.keys()) %}
 {%     if fact_name in ["mariadb", "mysql", "postgresql"] %}
 {%       if ansible_local[fact_name].server|d() in [ checkmk_agent__fqdn, "localhost" ] %}
@@ -11,5 +13,5 @@
 {%   endfor %}
 {% endif %}
 {{ ({
-    "plugins": (checkmk_agent__tpl_plugins | unique),
+    "plugins": (debops__tpl_macros.flattened(checkmk_agent__tpl_plugins) | from_json | unique),
 }) | to_nice_json }}

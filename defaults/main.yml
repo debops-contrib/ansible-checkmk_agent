@@ -248,11 +248,16 @@ checkmk_agent__host_plugins: []
                                                                    # ]]]
 # .. envvar:: checkmk_agent__plugin_autodetect [[[
 #
-# Try to install Check_MK agent plugins for applications auto detected
-# via Ansible local facts.
-# If ``True``, plugins which can be detected by looking at Ansible local facts
-# will be added according to :envvar:`checkmk_agent__facts_plugin_map`.
+# Try to install Check_MK agent plugins for hardware and applications auto
+# detected via Ansible facts.
 checkmk_agent__plugin_autodetect: True
+
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__autodetected_plugins [[[
+#
+# Autodetected list of upstream Check_MK agent plugins to enable.
+checkmk_agent__autodetected_plugins:
+  - '{{ ["smart"] if (ansible_virtualization_role in ["host"]) else [] }}'
 
                                                                    # ]]]
 # .. envvar:: checkmk_agent__facts_plugin_map [[[

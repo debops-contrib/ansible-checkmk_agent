@@ -27,6 +27,9 @@ Added
 
 - Support :envvar:`checkmk_agent__deploy_state`. [ypid_]
 
+- Automatically enable the ``smart`` Check_MK agent plugin on physical hosts to
+  query Self-Monitoring, Analysis and Reporting data from disks. [ypid_]
+
 Changed
 ~~~~~~~
 
