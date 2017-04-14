@@ -47,7 +47,7 @@ Changed
 Removed
 ~~~~~~~
 
-- Remove the ``debops_checkmk_agent`` Ansible inventory group. Make sure you
+- Remove the ``debops_checkmk_agent`` Ansible inventory group. Make sure your
   hosts are in ``debops_service_checkmk_agent``. [ypid_]
 
 Fixed

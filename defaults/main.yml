@@ -60,7 +60,7 @@ checkmk_agent__server_inventory_group: 'debops_service_checkmk_server'
 #
 # Ansible inventory name of Check_MK server. By default it will be autodetected
 # via :envvar:`checkmk_agent__server_inventory_group` host group configuration.
-# If the Check_MK server is not managed by Ansible, set this to `False`.
+# If the Check_MK server is not managed by Ansible, set this to ``False``.
 checkmk_agent__server: '{{ groups[checkmk_agent__server_inventory_group][0]
                            if (checkmk_agent__server_inventory_group in groups) and
                               (groups[checkmk_agent__server_inventory_group] | length > 0)
@@ -70,9 +70,9 @@ checkmk_agent__server: '{{ groups[checkmk_agent__server_inventory_group][0]
 # .. envvar:: checkmk_agent__site [[[
 #
 # Define Check_MK monitoring site name where the agent is registered. By default
-# it will be autodetected from the local facts stored under the `checkmk_server`
-# dictionary key. Fallback to site name `debops` if `checkmk_agent__server` is
-# undefined or the Ansible local facts for `checkmk_agent__server` can't be
+# it will be autodetected from the local facts stored under the ``checkmk_server``
+# dictionary key. Fallback to site name ``debops`` if ``checkmk_agent__server`` is
+# undefined or the Ansible local facts for ``checkmk_agent__server`` can't be
 # found. If the Check_MK server is managed manually this variable must be
 # defined accordingly in the Ansible inventory.
 checkmk_agent__site: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_server.keys()[0]|d("debops")
@@ -95,7 +95,7 @@ checkmk_agent__autojoin: '{{ True if checkmk_agent__autojoin_url else False }}'
 # .. envvar:: checkmk_agent__autojoin_url [[[
 #
 # Check_MK server WebAPI URL for agent registration. By default it will be
-# autodetected from the local facts stored under the `checkmk_server`
+# autodetected from the local facts stored under the ``checkmk_server``
 # dictionary key. If the Check_MK server is managed manually this variable
 # must be defined accordingly in the Ansible inventory.
 checkmk_agent__autojoin_url: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_server[checkmk_agent__site].webapi_url|d("")
@@ -201,7 +201,7 @@ checkmk_agent__user_home: '/var/lib/check_mk_agent'
 #
 # Public key for user authentication when accessing the agent via SSH. By
 # default it will be autodetected from the local facts stored under the
-# `checkmk_server` dictionary key. If the Check_MK server is managed manually
+# ``checkmk_server`` dictionary key. If the Check_MK server is managed manually
 # this variable must be defined accordingly in the Ansible inventory.
 checkmk_agent__user_key: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_server[checkmk_agent__site].ssh_public_key|d("")
                              if (checkmk_agent__server|d() and
