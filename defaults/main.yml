@@ -71,8 +71,8 @@ checkmk_agent__server: '{{ groups[checkmk_agent__server_inventory_group][0]
 #
 # Define Check_MK monitoring site name where the agent is registered. By default
 # it will be autodetected from the local facts stored under the ``checkmk_server``
-# dictionary key. Fallback to site name ``debops`` if ``checkmk_agent__server`` is
-# undefined or the Ansible local facts for ``checkmk_agent__server`` can't be
+# dictionary key. Fallback to site name ``debops`` if :envvar:`checkmk_agent__server` is
+# undefined or the Ansible local facts for :envvar:`checkmk_agent__server` can't be
 # found. If the Check_MK server is managed manually this variable must be
 # defined accordingly in the Ansible inventory.
 checkmk_agent__site: '{{ hostvars[checkmk_agent__server].ansible_local.checkmk_server.keys()[0]|d("debops")
@@ -137,6 +137,19 @@ checkmk_agent__fqdn: '{{ ansible_local.core.fqdn
 # details check :ref:`checkmk_agent__ref_host_attributes`.
 checkmk_agent__host_attributes:
   tag_agent: '{{ "cmk-agent-ssh" if "ssh" in checkmk_agent__type|d(["ssh"]) else "cmk-agent" }}'
+
+                                                                   # ]]]
+# .. envvar:: checkmk_agent__default_host_attributes [[[
+#
+# Default WATO host attributes. This variable, when being merged with
+# :envvar:`checkmk_agent__host_attributes`, allows to successfully compare the WebAPI
+# get_host() response in case the ``contactgroups`` key is set.
+checkmk_agent__default_host_attributes:
+  contactgroups:
+    recurse_perms: False
+    recurse_use: False
+    use: True
+    use_for_services: False
 
                                                                    # ]]]
 # .. envvar:: checkmk_agent__discovery_mode [[[
