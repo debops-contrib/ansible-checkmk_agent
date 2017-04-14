@@ -61,6 +61,13 @@ Fixed
 
 - Fix TCP Wrappers support for xinetd. [ypid_]
 
+Security
+~~~~~~~~
+
+- Enforce known good git commit hashes. As upstream does not cryptographically sign their work,
+  the known good hashes have to be pinned manually in
+  :envvar:`checkmk_agent__git_version_map` of the role. [ypid_]
+
 
 `debops-contrib.checkmk_agent v0.1.1`_ - 2017-01-23
 ---------------------------------------------------

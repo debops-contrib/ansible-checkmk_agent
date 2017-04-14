@@ -11,7 +11,9 @@
   git:
     repo: '{{ checkmk_agent__git_repo }}'
     dest: '{{ checkmk_agent__git_dest }}'
-    version: '{{ "v" + checkmk_agent__register_package_dpkg_version.stdout.split("-")[0] if checkmk_agent__git_version == "auto" else checkmk_agent__git_version }}'
+    version: '{{ checkmk_agent__git_version_map["v" + checkmk_agent__register_package_dpkg_version.stdout.split("-")[0]]|d("v" + checkmk_agent__register_package_dpkg_version.stdout.split("-")[0])
+                 if (checkmk_agent__git_version == "auto")
+                 else (checkmk_agent__git_version_map[checkmk_agent__git_version]|d(checkmk_agent__git_version)) }}'
     update: True
   tags: [ 'role::checkmk_agent:plugins:get' ]
 
