@@ -320,7 +320,7 @@ checkmk_agent__plugin_mysql_priv: '*.*:SELECT,SHOW DATABASES'
 
 # .. envvar:: checkmk_agent__plugin_nginx_servers [[[
 #
-# This option allows you to configure the servers which nginx_status_
+# This option allows you to configure the servers which the nginx_status_
 # plugin should monitoring. This might be required when the auto detection of
 # the plugin fails for example because the default server does not allow
 # :file:`/nginx_status`. This can happen because the plugin tires to connect with
@@ -330,17 +330,21 @@ checkmk_agent__plugin_mysql_priv: '*.*:SELECT,SHOW DATABASES'
 #
 # .. _nginx_status: https://mathias-kettner.de/checkmk_check_nginx_status.html
 #
-# Example::
+# Examples:
 #
-#   checkmk_agent__plugin_nginx_servers:
-#     - proto: 'http'
-#       ipaddress: 'some-appliance.corp.com'
-#       port: 80
-#     - proto: 'http'
-#       ipaddress: '[::1]'
-#       port: 80
+# .. code-block:: yaml
+#    :linenos:
 #
-#   checkmk_agent__plugin_nginx_servers: 'automatic'
+#    checkmk_agent__plugin_nginx_servers:
+#      - proto: 'http'
+#        ipaddress: 'some-appliance.corp.com'
+#        port: 80
+#      - proto: 'http'
+#        ipaddress: '[::1]'
+#        port: 80
+#
+#    # Or:
+#    checkmk_agent__plugin_nginx_servers: 'automatic'
 #
 checkmk_agent__plugin_nginx_servers:
   - proto: 'http'

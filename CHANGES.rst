@@ -14,6 +14,8 @@ The current role maintainer_ is ganto_.
 `debops-contrib.checkmk_agent master`_ - unreleased
 ---------------------------------------------------
 
+.. Changes require a v0.2.0 release for SemVer compliance.
+
 .. _debops-contrib.checkmk_agent master: https://github.com/debops-contrib/ansible-checkmk_agent/compare/v0.1.1...master
 
 Added
