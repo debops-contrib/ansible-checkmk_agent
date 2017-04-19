@@ -1,0 +1,16 @@
+---
+# vim: foldmarker=[[[,]]]:foldmethod=marker
+
+# .. envvar:: checkmk_agent__default_host_attributes [[[
+#
+# Default WATO host attributes. This variable, when being merged with
+# :envvar:`checkmk_agent__host_attributes`, allows to successfully compare the WebAPI
+# get_host() response in case the ``contactgroups`` key is set.
+checkmk_agent__default_host_attributes:
+  contactgroups:
+    recurse_perms: False
+    recurse_use: False
+    use: True
+    use_for_services: False
+
+                                                                   # ]]]
