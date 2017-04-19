@@ -263,6 +263,9 @@ checkmk_agent__autodetected_plugins:
 # .. envvar:: checkmk_agent__facts_plugin_map [[[
 #
 # Ansible local facts to Check_MK plugin mapping.
+# If the Ansible local fact is present and optional conditions defined in the
+# :file:`templates/etc/ansible/facts.d/checkmk_agent.fact.j2` file are met, the
+# Check_MK plugin will be enabled.
 checkmk_agent__facts_plugin_map:
   mariadb: 'mk_mysql'
   mysql: 'mk_mysql'
@@ -273,8 +276,8 @@ checkmk_agent__facts_plugin_map:
 # .. envvar:: checkmk_agent__combined_plugins [[[
 #
 # Combined list of all plugins which are going to be installed.
-# Specified as Ansible local fact so that this variable is also valid in when
-# conditions evaluated in the context of other roles/playbooks.
+# Specified as Ansible local fact so that this variable is also valid in ``when``
+# conditions evaluated in the context of other roles called from the same playbook as this role.
 checkmk_agent__combined_plugins: '{{ ansible_local.checkmk_agent.plugins
                                      if (ansible_local|d() and ansible_local.checkmk_agent|d() and
                                          ansible_local.checkmk_agent.plugins|d())
