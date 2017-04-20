@@ -1,3 +1,5 @@
+.. _checkmk_agent__ref_changelog:
+
 Changelog
 =========
 
@@ -29,6 +31,8 @@ Added
 
 - Automatically enable the ``smart`` Check_MK agent plugin on physical hosts to
   query Self-Monitoring, Analysis and Reporting data from disks. [ypid_]
+
+- Add :ref:`checkmk_agent__ref_ansible_facts` documentation. [ypid_]
 
 Changed
 ~~~~~~~
