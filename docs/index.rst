@@ -10,6 +10,7 @@ Ansible role: debops-contrib.checkmk_agent
    getting-started
    defaults
    defaults-detailed
+   facts
    copyright
    changelog
 

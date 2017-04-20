@@ -11,7 +11,13 @@
   git:
     repo: '{{ checkmk_agent__git_repo }}'
     dest: '{{ checkmk_agent__git_dest }}'
-    version: '{{ "v" + checkmk_agent__register_package_dpkg_version.stdout.split("-")[0] if checkmk_agent__git_version == "auto" else checkmk_agent__git_version }}'
+    version: '{{ (checkmk_agent__git_version_map["v" + checkmk_agent__register_package_dpkg_version.stdout.split("-")[0]]|d("v" + checkmk_agent__register_package_dpkg_version.stdout.split("-")[0])
+                  if (checkmk_agent__git_version == "auto")
+                  else (checkmk_agent__git_version_map[checkmk_agent__git_version]|d(checkmk_agent__git_version)))
+                 if (checkmk_agent__git_version_unsigned_fallback|bool)
+                 else ((checkmk_agent__git_version_map["v" + checkmk_agent__register_package_dpkg_version.stdout.split("-")[0]]
+                   if (checkmk_agent__git_version == "auto")
+                   else (checkmk_agent__git_version_map[checkmk_agent__git_version]))) }}'
     update: True
   tags: [ 'role::checkmk_agent:plugins:get' ]
 
@@ -21,7 +27,7 @@
     dest: '{{ checkmk_agent__plugin_path }}'
     checksum: True
     mode: 'push'
-  with_items: '{{ ansible_local.checkmk_agent.checkmk_agent__plugin_list }}'
+  with_items: '{{ checkmk_agent__combined_plugins }}'
   delegate_to: '{{ inventory_hostname }}'
 
 - name: Configure nginx_status plugin
@@ -31,10 +37,11 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  when: (checkmk_agent__plugin_nginx_servers is defined and checkmk_agent__plugin_nginx_servers is not string)
+  register: checkmk_agent__register_nginx_status_config
+  when: ((checkmk_agent__plugin_nginx_servers != "automatic") and ("nginx_status" in checkmk_agent__combined_plugins))
 
 - name: Ensure that nginx_status.cfg is absent for automatic detection
   file:
     path: '/etc/check_mk/nginx_status.cfg'
     state: 'absent'
-  when: (checkmk_agent__plugin_nginx_servers|d("automatic") == "automatic")
+  when: checkmk_agent__register_nginx_status_config|skipped

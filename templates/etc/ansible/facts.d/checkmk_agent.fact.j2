@@ -1,9 +1,17 @@
-{% set checkmk_agent__tpl_plugin_list = checkmk_agent__plugin_list %}
-{% if checkmk_agent__plugin_autodetect|d() %}
-{%   for hostgroup in hostvars[inventory_hostname]['group_names'] | intersect(checkmk_agent__group_plugin_map.keys()) %}
-{%     set _ = checkmk_agent__tpl_plugin_list.append(checkmk_agent__group_plugin_map[hostgroup]) %}
+{% import 'templates/import/debops__tpl_macros.j2' as debops__tpl_macros with context %}
+{% set checkmk_agent__tpl_plugins = checkmk_agent__plugins + checkmk_agent__group_plugins + checkmk_agent__host_plugins %}
+{% if checkmk_agent__plugin_autodetect|d() | bool %}
+{%   set _ = checkmk_agent__tpl_plugins.append(checkmk_agent__autodetected_plugins) %}
+{%   for fact_name in ansible_local.keys() | intersect(checkmk_agent__facts_plugin_map.keys()) %}
+{%     if fact_name in ["mariadb", "mysql", "postgresql"] %}
+{%       if ansible_local[fact_name].server|d() in [ checkmk_agent__fqdn, "localhost" ] %}
+{%         set _ = checkmk_agent__tpl_plugins.append(checkmk_agent__facts_plugin_map[fact_name]) %}
+{%       endif %}
+{%     else %}
+{%       set _ = checkmk_agent__tpl_plugins.append(checkmk_agent__facts_plugin_map[fact_name]) %}
+{%     endif %}
 {%   endfor %}
 {% endif %}
-{
-"checkmk_agent__plugin_list" : {{ checkmk_agent__tpl_plugin_list | to_nice_json }}
-}
+{{ ({
+    "plugins": (debops__tpl_macros.flattened(checkmk_agent__tpl_plugins) | from_json | unique),
+}) | to_nice_json }}

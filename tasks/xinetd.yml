@@ -1,10 +1,10 @@
 ---
 
-- name: Install xinetd package
-  apt:
+- name: Ensure the xinetd package is in the desired state
+  package:
     name: 'xinetd'
-    state: 'present'
-    install_recommends: False
+    ## Might also be used for other things.
+    # state: '{{ "present" if (checkmk_agent__deploy_state in ["present"]) else "absent" }}'
 
 - name: Divert original /etc/xinetd.d/check_mk
   command: dpkg-divert --quiet --local --divert /etc/xinetd.d/check_mk.dpkg-divert --rename /etc/xinetd.d/check_mk

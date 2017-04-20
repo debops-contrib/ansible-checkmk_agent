@@ -1,3 +1,5 @@
+.. _checkmk_agent__ref_changelog:
+
 Changelog
 =========
 
@@ -14,6 +16,8 @@ The current role maintainer_ is ganto_.
 `debops-contrib.checkmk_agent master`_ - unreleased
 ---------------------------------------------------
 
+.. Changes require a v0.2.0 release for SemVer compliance.
+
 .. _debops-contrib.checkmk_agent master: https://github.com/debops-contrib/ansible-checkmk_agent/compare/v0.1.1...master
 
 Added
@@ -22,6 +26,13 @@ Added
 - New inventory variable :envvar:`checkmk_agent__server_inventory_group` which
   can be used to define custom Ansible host group name for Check_MK server
   lookup. [ganto_]
+
+- Support :envvar:`checkmk_agent__deploy_state`. [ypid_]
+
+- Automatically enable the ``smart`` Check_MK agent plugin on physical hosts to
+  query Self-Monitoring, Analysis and Reporting data from disks. [ypid_]
+
+- Add :ref:`checkmk_agent__ref_ansible_facts` documentation. [ypid_]
 
 Changed
 ~~~~~~~
@@ -33,14 +44,40 @@ Changed
   attribute updates on the Check_MK server to avoid possible firewall issues.
   [ganto_]
 
+- Rename ``checkmk_agent__hostname`` to :envvar:`checkmk_agent__fqdn`. You might need
+  to update your inventory. [ypid_]
+
+- Rename ``checkmk_agent__group_plugin_map`` to :envvar:`checkmk_agent__facts_plugin_map`. You might need
+  to update your inventory. [ypid_]
+
+- Increase Ansible min version to ``2.1.5``. Everything below is deprecated
+  anyway and has vulnerabilities so you don’t want to use that anymore. [ypid_]
+
+Removed
+~~~~~~~
+
+- Remove the ``debops_checkmk_agent`` Ansible inventory group. Make sure your
+  hosts are in ``debops_service_checkmk_agent``. [ypid_]
+
 Fixed
 ~~~~~
 
 - Correctly use Ansible `changed` and `skipped` task filters. [ganto_]
 
+- Let xinetd bind on ``AF_INET6`` to ensure IPv6 reachability of the agent. [ypid_]
 
-`debops-contrib.checkmk_agent v0.1.1` - 2017-01-23
---------------------------------------------------
+- Fix TCP Wrappers support for xinetd. [ypid_]
+
+Security
+~~~~~~~~
+
+- Enforce known good git commit hashes. As upstream does not cryptographically sign their work,
+  the known good hashes have to be pinned manually in
+  :envvar:`checkmk_agent__git_version_map` of the role. [ypid_]
+
+
+`debops-contrib.checkmk_agent v0.1.1`_ - 2017-01-23
+---------------------------------------------------
 
 .. _debops-contrib.checkmk_agent v0.1.1: https://github.com/debops-contrib/ansible-checkmk_agent/compare/v0.1.0...v0.1.1
 
