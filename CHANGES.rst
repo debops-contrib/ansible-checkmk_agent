@@ -68,6 +68,9 @@ Fixed
 
 - Fix TCP Wrappers support for xinetd. [ypid_]
 
+- Ensure the :file:`/etc/check_mk` directory is present before running
+  dependency roles. Fixes MariaDB credentials configuration. [ypid_]
+
 Security
 ~~~~~~~~
 
