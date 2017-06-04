@@ -20,6 +20,8 @@
                    else (checkmk_agent__git_version_map[checkmk_agent__git_version]))) }}'
     update: True
   tags: [ 'role::checkmk_agent:plugins:get' ]
+  delegate_to: '{{ checkmk_agent__git_dest_host }}'
+  run_once: True
 
 - name: Install Check_MK plugins
   synchronize:
@@ -28,7 +30,7 @@
     checksum: True
     mode: 'push'
   with_items: '{{ checkmk_agent__combined_plugins }}'
-  delegate_to: '{{ inventory_hostname }}'
+  delegate_to: '{{ checkmk_agent__git_dest_host }}'
 
 - name: Configure nginx_status plugin
   template:

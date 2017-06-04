@@ -34,6 +34,9 @@ Added
 
 - Add :ref:`checkmk_agent__ref_ansible_facts` documentation. [ypid_]
 
+- Add :envvar:`checkmk_agent__git_dest_host` which can be used to clone the
+  Check_MK only once to the Ansible controller. [ypid_]
+
 Changed
 ~~~~~~~
 
