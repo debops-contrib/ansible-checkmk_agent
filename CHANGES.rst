@@ -34,6 +34,9 @@ Added
 
 - Add :ref:`checkmk_agent__ref_ansible_facts` documentation. [ypid_]
 
+- Add :envvar:`checkmk_agent__git_dest_host` which can be used to clone the
+  Check_MK only once to the Ansible controller. [ypid_]
+
 Changed
 ~~~~~~~
 
@@ -67,6 +70,9 @@ Fixed
 - Let xinetd bind on ``AF_INET6`` to ensure IPv6 reachability of the agent. [ypid_]
 
 - Fix TCP Wrappers support for xinetd. [ypid_]
+
+- Ensure the :file:`/etc/check_mk` directory is present before running
+  dependency roles. Fixes MariaDB credentials configuration. [ypid_]
 
 Security
 ~~~~~~~~

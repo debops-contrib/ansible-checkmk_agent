@@ -1,6 +1,14 @@
 ---
 # vim: foldmarker=[[[,]]]:foldmethod=marker
 
+- name: Make sure check_mk configuration directory exists
+  file:
+    dest: '/etc/check_mk'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
 - name: Make sure Ansible local facts directory exists
   file:
     dest: '/etc/ansible/facts.d'

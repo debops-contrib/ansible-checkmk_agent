@@ -350,6 +350,14 @@ checkmk_agent__plugin_nginx_servers:
 # Agent plugins source options [[[
 # --------------------------------
 
+# .. envvar:: checkmk_agent__git_dest_host [[[
+#
+# The host to which the Check_MK agent source directory should be cloned.
+# Can be set to ``localhost`` so that the repo is only cloned one time and not
+# once for each host.
+checkmk_agent__git_dest_host: '{{ inventory_hostname }}'
+
+                                                                   # ]]]
 # .. envvar:: checkmk_agent__git_repo [[[
 #
 # Check_MK agent source repository.
