@@ -21,6 +21,7 @@
     update: True
   tags: [ 'role::checkmk_agent:plugins:get' ]
   delegate_to: '{{ checkmk_agent__git_dest_host }}'
+  become: '{{ False if (checkmk_agent__git_dest_host == "localhost") else True }}'
   run_once: True
 
 - name: Install Check_MK plugins
