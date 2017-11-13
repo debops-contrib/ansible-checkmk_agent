@@ -7,9 +7,9 @@ Example inventory
 -----------------
 
 You can install Check_MK agent on a host by adding it to the
-``[debops_services_checkmk_agent`` host group in your Ansible inventory::
+``[debops_service_checkmk_agent`` host group in your Ansible inventory::
 
-    [debops_services_checkmk_agent]
+    [debops_service_checkmk_agent]
     hostname
 
 Example playbook
