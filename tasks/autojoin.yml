@@ -15,7 +15,7 @@
     return_content: yes
   delegate_to: '{{ checkmk_agent__server if checkmk_agent__server else omit }}'
   register: checkmk_agent__register_get_host
-  always_run: True
+  check_mode: False
   changed_when: False
   failed_when: (not "json" in checkmk_agent__register_get_host)
 
