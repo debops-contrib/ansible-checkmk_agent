@@ -30,6 +30,7 @@
     dest: '{{ checkmk_agent__plugin_path }}'
     checksum: True
     mode: 'push'
+    verify_host: True
   with_items: '{{ checkmk_agent__combined_plugins }}'
   delegate_to: '{{ checkmk_agent__git_dest_host }}'
 
