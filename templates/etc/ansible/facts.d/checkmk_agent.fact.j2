@@ -13,5 +13,5 @@
 {%   endfor %}
 {% endif %}
 {{ ({
-    "plugins": (debops__tpl_macros.flattened(checkmk_agent__tpl_plugins) | from_json | unique),
+    "plugins": (debops__tpl_macros.flattened(checkmk_agent__tpl_plugins) | from_json | sort | unique),
 }) | to_nice_json }}
