@@ -18,6 +18,7 @@
 # List of base packages to install.
 checkmk_agent__base_packages:
   - 'check-mk-agent'
+  - 'monitoring-plugins-btrfs'
 
                                                                    # ]]]
 # .. envvar:: checkmk_agent__type [[[
@@ -482,6 +483,7 @@ checkmk_agent__authorized_keys__dependent_list:
     group: '{{ checkmk_agent__ssh_group }}'
     sshkeys:
       - '{{ checkmk_agent__user_key }}'
+    exclusive: True
     options: '{{ authorized_keys__options_map.strict }}'
     key_options: 'command="{{ "/usr/bin/sudo " if not checkmk_agent__ssh_user == "root" else "" }}{{ checkmk_agent__exec }}"'
     state: '{{ "present"

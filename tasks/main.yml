@@ -1,5 +1,11 @@
 ---
 
+- import_role:
+    name: 'ansible_plugins'
+
+- import_role:
+    name: 'secret'
+
 - name: DebOps pre_tasks hook
   include: "{{ lookup('task_src', 'checkmk_agent/pre_main.yml') }}"
 

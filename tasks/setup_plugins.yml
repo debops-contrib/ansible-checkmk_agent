@@ -48,4 +48,4 @@
   file:
     path: '/etc/check_mk/nginx_status.cfg'
     state: 'absent'
-  when: checkmk_agent__register_nginx_status_config|skipped
+  when: checkmk_agent__register_nginx_status_config is skipped
