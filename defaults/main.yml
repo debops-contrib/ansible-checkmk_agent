@@ -18,6 +18,7 @@
 # List of base packages to install.
 checkmk_agent__base_packages:
   - 'check-mk-agent'
+  - 'monitoring-plugins-btrfs'
 
                                                                    # ]]]
 # .. envvar:: checkmk_agent__type [[[
