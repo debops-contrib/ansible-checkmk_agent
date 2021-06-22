@@ -28,4 +28,4 @@
 
 - name: Re-read local facts if they have been modified
   action: setup
-  when: checkmk_agent__register_local_facts|changed
+  when: checkmk_agent__register_local_facts is changed
