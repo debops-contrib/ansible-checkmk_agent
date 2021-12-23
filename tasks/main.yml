@@ -7,7 +7,7 @@
     name: 'secret'
 
 - name: DebOps pre_tasks hook
-  include: "{{ lookup('task_src', 'checkmk_agent/pre_main.yml') }}"
+  include: "{{ lookup('debops.debops.task_src', 'checkmk_agent/pre_main.yml') }}"
 
 # System packages [[[
 - name: Ensure specified packages are in there desired state
@@ -43,4 +43,4 @@
   when: (checkmk_agent__autojoin|d())
 
 - name: DebOps post_tasks hook
-  include: "{{ lookup('task_src', 'checkmk_agent/post_main.yml') }}"
+  include: "{{ lookup('debops.debops.task_src', 'checkmk_agent/post_main.yml') }}"
