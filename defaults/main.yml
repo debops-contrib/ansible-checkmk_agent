@@ -126,10 +126,7 @@ checkmk_agent__autojoin_secret: '{{ lookup("password", secret + "/credentials/" 
 # .. envvar:: checkmk_agent__fqdn [[[
 #
 # FQDN of the agent host used for registration.
-checkmk_agent__fqdn: '{{ ansible_local.core.fqdn
-                         if (ansible_local|d() and ansible_local.core|d() and
-                             ansible_local.core.fqdn|d())
-                         else ansible_fqdn }}'
+checkmk_agent__fqdn: '{{ ansible_local.core.fqdn|d(ansible_fqdn) }}'
 
                                                                    # ]]]
 # .. envvar:: checkmk_agent__host_attributes [[[
@@ -266,10 +263,7 @@ checkmk_agent__facts_plugin_map:
 # Combined list of all plugins which are going to be installed.
 # Specified as Ansible local fact so that this variable is also valid in ``when``
 # conditions evaluated in the context of other roles called from the same playbook as this role.
-checkmk_agent__combined_plugins: '{{ ansible_local.checkmk_agent.plugins
-                                     if (ansible_local|d() and ansible_local.checkmk_agent|d() and
-                                         ansible_local.checkmk_agent.plugins|d())
-                                     else [] }}'
+checkmk_agent__combined_plugins: '{{ ansible_local.checkmk_agent.plugins|d([]) }}'
 
                                                                    # ]]]
 # .. envvar:: checkmk_agent__plugin_path [[[
@@ -300,8 +294,7 @@ checkmk_agent__plugin_mysql_user: 'monitor'
 #
 # Database user password to use for monitoring.
 checkmk_agent__plugin_mysql_password: '{{
-  lookup("password", secret + "/mariadb/" + (ansible_local.mariadb.delegate_to
-  if (ansible_local.mariadb|d() and ansible_local.mariadb.delegate_to|d()) else "") +
+  lookup("password", secret + "/mariadb/" + ansible_local.mariadb.delegate_to|d("") +
   "/credentials/" + checkmk_agent__plugin_mysql_user + "/password length=48") }}'
 
                                                                    # ]]]
